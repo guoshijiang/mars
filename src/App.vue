@@ -19,8 +19,8 @@ export default {
     }
   },
   components:{
-    tab:()=>import('@/components/tab'),
-    navHeader:()=>import('@/components/navHeader')
+    // tab:()=>import('@/components/tab'),
+    // navHeader:()=>import('@/components/navHeader')
   }
 
 }

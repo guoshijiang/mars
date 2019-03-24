@@ -2,7 +2,8 @@
   <div class="box">
     <tabbar>
       <tabbar-item :selected = 'active==index' v-for='(i,index) in list' :key='index' :link='i.link'>
-        <img slot="icon" :src="i.img">
+        <img slot="icon" :src="i.img_a" v-if='active == index'>
+        <img slot="icon" :src="i.img" v-else>
         <span slot="label">{{i.title}}</span>
       </tabbar-item>
     </tabbar>
@@ -27,10 +28,10 @@ export default {
   data () {
     return {
       list:[
-        {title:'资产',img:'src/assets/img/tab_1.png',link:'/home'},
-        {title:'行情',img:'src/assets/img/tab_2.png',link:'/price'},
-        {title:'交易',img:'src/assets/img/tab_3.png',link:'/trade'},
-        {title:'我的',img:'src/assets/img/tab_4.png',link:'/mine'},
+        {title:'资产',img:'src/assets/img/tab_1.png',img_a:'src/assets/img/tab_1_a.png',link:'/home'},
+        {title:'行情',img:'src/assets/img/tab_2.png',img_a:'src/assets/img/tab_2_a.png',link:'/price'},
+        {title:'交易',img:'src/assets/img/tab_3.png',img_a:'src/assets/img/tab_3_a.png',link:'/trade'},
+        {title:'我的',img:'src/assets/img/tab_4.png',img_a:'src/assets/img/tab_4_a.png',link:'/mine'},
       ]
     }
   },
