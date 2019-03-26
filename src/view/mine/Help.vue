@@ -50,20 +50,24 @@ export default {
       margin-top: 20px;
       color:#fff;
       font-size: 26px;
+      width: 100%;
       // background:rgba(255,255,255,1);
+      background-size: cover;
+      background-repeat: no-repeat;
       
     }
+    
     li:nth-child(1){
-      background:url("../../assets/img/help_1.png");
+      background-image:url("../../assets/img/help_1.png");
     }
     li:nth-child(2){
-      background:url("../../assets/img/help_2.png");
+      background-image:url("../../assets/img/help_2.png");
     }
     li:nth-child(3){
-      background:url("../../assets/img/help_3.png");
+      background-image:url("../../assets/img/help_3.png");
     }
     li:nth-child(4){
-      background:url("../../assets/img/help_4.png");
+      background-image:url("../../assets/img/help_4.png");
     }
   }
 }
