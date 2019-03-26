@@ -16,7 +16,6 @@
         <cell :title="item.title" is-link v-for='(item,index) in list' :key='index' :link='item.link'>
           <img slot="icon" width="20" style="display:block;margin-right:5px;" :src="item.url">
         </cell>
-        <router-view/>
       </group>
     </div> 
     <!-- 底部 -->
@@ -91,9 +90,11 @@ export default {
   .top-car{
     width: 100%;
     height: 238px;
-    background:linear-gradient(225deg,rgba(255,115,184,1) 0%,rgba(39,58,255,0.27) 100%);
+    background:url(../assets/img/top_car_bg.png) center  no-repeat;
+    background-size: cover;
     position: relative;
     overflow: hidden;
+    font-size: 0;
     ul{
       height: 70px;
       margin-top: 78px;
@@ -109,12 +110,14 @@ export default {
       }
       li:last-child{
         padding-left: 18px;
+        color:#fff;
         p{font-size: 26px;line-height: 26px;margin-top: 10px;}
         p:last-child{
-          font-size: 12px;line-height: 12px;margin-top: 10px;
-          width: 84px;
+          font-size: 12px;
+          margin-top: 10px;
+          min-width: 84px;
           height: 18px;
-          line-height: 18px;
+          line-height: 21px;
           text-align: center;
           background: linear-gradient(270deg,rgba(59,185,255,1) 0%,rgba(168,83,255,1) 100%);
           border-radius: 10px;
@@ -122,13 +125,13 @@ export default {
       }
     }
     .bottom-bg{
-      height: 10px;
+      height: 11px;
       width: 100%;
       background-color: #fff;
       border-radius:8px 8px 0 0;
       position: absolute;
       left:0;
-      bottom:0;
+      bottom:-1px;
     }
   }
 }

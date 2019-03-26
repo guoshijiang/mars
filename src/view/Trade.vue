@@ -47,7 +47,7 @@
 				</div>
 				<p class="right_box p_num">0.004912</p>
 				<p class="right_box p_sum">≈27118.50 CNY</p>
-				<div class="right_box clearfix bg-num1">
+				<div class="right_box clearfix bg-num1 bg-num2">
 					<p class='clearfix'><span class="float_left">3999.19</span> <span class="float_right">0.002</span> </p>
 					<p class='clearfix'><span class="float_left">3999.19</span> <span class="float_right">0.002</span> </p>
 					<p class='clearfix'><span class="float_left">3999.19</span> <span class="float_right">0.002</span> </p>
@@ -175,7 +175,7 @@ export default {
 			// padding: 9px 8px;
 		}
 		.bg-num1{
-			background-color: #B7B7B7;
+			background-color: #fef6f5;
 			margin-top: 8px;
 			p{
 				padding: 0 8px;
@@ -186,6 +186,9 @@ export default {
 					color:#C3C3C3;
 				}
 			}
+		}
+		.bg-num2{
+			background-color: #f1faf8;
 		}
 		.p_num{
 			margin-top: 15px;

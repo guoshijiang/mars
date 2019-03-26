@@ -128,6 +128,7 @@ export default {
 					float: left;
 					text-align: center;
 					line-height: 30px;
+					font-weight: 300;
 					&:last-child{
 						margin-left: 15px;
 					}
