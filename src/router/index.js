@@ -7,7 +7,7 @@ export default new Router({
   routes: [
     {
       path:'/',
-      redirect:{name:"Login"}
+      redirect:{name:"Home"}
     },
     {
       path: '/home',
@@ -79,12 +79,12 @@ export default new Router({
       component:()=>import('@/view/common/SetPricePassword')
     },
     //重定向
-    // {
-    //   path:'*',
-    //   redirect:{
-    //     name:'Login'
-    //   }
-    // }
+    {
+      path:'*',
+      redirect:{
+        name:'Home'
+      }
+    }
 
   ]
 })

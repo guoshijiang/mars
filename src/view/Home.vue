@@ -14,7 +14,7 @@
 		</div>
 	
 		<ul class="data_box" style='height:calc(100% - 290px)'>
-			<div>
+			<div @click="goDetail()"> 
 				<p class="clearfix li-title"><span class="float_left">BTC</span>	<span class="float_right">></span></p>
 				<li>
 					<div class='flex'><p>可用</p><p>24h量 1000</p></div>
@@ -86,7 +86,7 @@ export default {
     }
   },
   methods: {
-    go(a){
+    goDetail(a){
       this.$router.push({name:'Detail'})
     }
   },
@@ -166,20 +166,6 @@ export default {
 			background-size: cover;
 			margin-bottom: 24px;
 		}
-		// .hb_new_title{
-		// 	font-size: 16px;
-		// 	line-height: 16px;
-		// 	margin-top: 24px;
-		// 	color:#333;
-		// }
-		// .title{
-		// 	background: #f5f5f5;
-		// 	height: 30px;
-		// 	display: flex;
-		// 	margin-top: 13px;
-		// 	line-height: 30px;
-		// 	span{flex: 1;text-align: center;color:#666666}
-		// }
 		.data_box{
 			overflow-y: scroll;
 			box-sizing: border-box;
