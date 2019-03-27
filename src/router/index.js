@@ -31,6 +31,17 @@ export default new Router({
 
     },
     {
+      path:'/history',
+      name:"History",
+      component:() => import('@/view/trade/History'),
+
+    },
+    {
+      path:'/history_Da',
+      name:"History_Da",
+      component:() => import('@/view/trade/History_detail'),
+    },
+    {
       path:'/mine',
       name:"Mine",
       component:() => import('@/view/Mine'),

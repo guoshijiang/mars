@@ -6,7 +6,7 @@
     <div class="content trade" >
        <ul class="clearfix nav-li">
          <li class='float_left'>币币交易</li>
-         <li class='float_right'>历史记录</li>
+         <li class='float_right' @click='goHistory()'>历史记录</li>
        </ul>
       <div class="trade-box clearfix">
 		  <!-- 左边 -->
@@ -85,7 +85,9 @@ export default {
     }
   },
   methods: {
-   
+	  goHistory(){
+		  this.$router.push({name:'History'})
+	  }
   }
 }
 </script>
@@ -105,15 +107,15 @@ export default {
   	.nav-li{
 		padding: 17px 0px;
 		li{
-		color:#333;
-		line-height: 20px;
-		&:first-child{
-			font-size: 20px;
+			color:#333;
+			line-height: 20px;
+			&:first-child{
+				font-size: 20px;
+				}
+			&:last-child{
+				font-size: 17px;
+				}
 			}
-		&:last-child{
-			font-size: 17px;
-			}
-		}
 	}
 	.trade-left{
 		width: 50%;
