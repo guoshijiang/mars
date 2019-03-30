@@ -100,6 +100,21 @@ html,body {
   color:#d0d0d0;
   font-size: 16px;
 }
-
+//选币模态框样式
+.vux-popup-dialog .popup-content{
+  height: 300px;
+  padding: 15px;
+  .flex-box{
+        margin-top: 20px;
+        box-sizing: border-box;
+    }
+    .flex-demo {
+        text-align: center;
+        color: #666;
+        background-color: #F5F6F7;
+        border-radius: 4px;
+        background-clip: padding-box;
+    }
+}
 
 </style>

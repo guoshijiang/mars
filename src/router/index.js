@@ -25,6 +25,21 @@ export default new Router({
       component:() => import('@/view/Price')
     },
     {
+      path: '/findb',
+      name:'Findb',
+      component:() => import('@/view/price/Findb')
+    },
+    {
+      path: '/history_type',
+      name:'History_type',
+      component:() => import('@/view/price/History_type')
+    },
+    {
+      path: '/db_detail',
+      name:'Db_detail',
+      component:() => import('@/view/price/Db_detail')
+    },
+    {
       path:'/trade',
       name:"Trade",
       component:() => import('@/view/Trade'),

@@ -2,7 +2,7 @@
   <div class="hb-header">
     <x-header :left-options="{showBack: back}" :right-options="{showMore: false}" @on-click-more="showMenus = true">
       {{title}}
-      <a slot="right" v-if='right'>{{right}}</a>
+      <a slot="right" v-if='right' @click='goNext()'>{{right}}</a>
     </x-header>
   </div>
 </template>
@@ -31,6 +31,14 @@ export default {
     },
     right:{
       type:String,
+    },
+    right_link:{
+       type:String,
+       required:false,
+    },
+    query:{
+       type:String,
+       required:false,
     }
     
   },
@@ -44,8 +52,17 @@ export default {
     }
   },
   created() {
-      // console.log('33333')
+      console.log('33333',this.query,this.right_link)
   },
+  methods:{
+    goNext(){
+      if(this.right_link){
+        if(!this.query) this.$router.push({name:this.right_link})
+        else this.$router.push({name:this.right_link,query:{type:this.query}})
+      }
+      
+    }
+  }
 }
 </script>
 

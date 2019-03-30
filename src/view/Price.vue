@@ -7,7 +7,7 @@
 		<div class='car'>
 			<p class="sum_price">总资产</p>
 			<p class="has_count"><span>0.000000</span><span> BTC = 0 CNY</span></p>
-			<p class="caozuo clearfix"><span>充币</span><span>提币</span></p>
+			<p class="caozuo clearfix"><span @click="setDb('put')">充币</span><span @click="setDb('pick')">提币</span></p>
 		</div>
 		<div class="safe">
 			<!-- <div class='nei'>
@@ -60,12 +60,7 @@
 				<div class="change_height"><a class="hb_btn_a" href='javascript:;'>+1.34%</a></div>
 			</li>
 		</ul>
-     
-
-
     </div> 
-
-
 
     <!-- 底部 -->
     <tab class="tab_footer" :active='1'></tab>   
@@ -92,6 +87,9 @@ export default {
     }
   },
   methods: {
+	setDb(type){
+		this.$router.push({name:'Findb',query:{type:type}})
+	}
   }
 }
 </script>
@@ -133,9 +131,7 @@ export default {
 						margin-left: 15px;
 					}
 				}
-
 			}
-
 		}
 		.safe{
 			height: 79px;
