@@ -8,7 +8,7 @@
 			<p class="sum_price">总资产</p>
 			<p class="has_count"><span>0.00000000</span><span> BTC = 0 CNY</span></p>
 			<p class="price_name"><span>资产折合 USDT</span><span> BTC = 0 CNY</span></p>
-			<p class="caozuo clearfix"><span>充币</span><span>提币</span></p>
+			<p class="caozuo clearfix"><span @click="setDb('put')">充币</span><span @click="setDb('pick')">提币</span></p>
 		</div>
 		<div class="safe">
 		</div>
@@ -88,7 +88,10 @@ export default {
   methods: {
     goDetail(a){
       this.$router.push({name:'Detail'})
-    }
+	},
+	setDb(type){
+		this.$router.push({name:'Findb',query:{type:type}})
+	}
   },
 }
 </script>

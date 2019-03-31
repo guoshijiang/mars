@@ -65,7 +65,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',//正式的打包本地看时需要改当前的path'./'  原来是'/'
+    assetsPublicPath: './',//正式的打包本地看时需要改当前的path'./'  原来是'/'
 
     /**
      * Source Maps

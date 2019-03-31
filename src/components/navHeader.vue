@@ -52,7 +52,6 @@ export default {
     }
   },
   created() {
-      console.log('33333',this.query,this.right_link)
   },
   methods:{
     goNext(){
@@ -60,7 +59,6 @@ export default {
         if(!this.query) this.$router.push({name:this.right_link})
         else this.$router.push({name:this.right_link,query:{type:this.query}})
       }
-      
     }
   }
 }

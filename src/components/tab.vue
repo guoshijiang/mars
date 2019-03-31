@@ -1,19 +1,33 @@
 <template>
   <div class="box">
     <tabbar>
-      <tabbar-item :selected = 'active==index' v-for='(i,index) in list' :key='index' :link='i.link'>
+      <!-- <tabbar-item :selected = 'active==index' v-for='(i,index) in list' :key='index' :link='i.link'>
         <img slot="icon" :src="i.img_a" v-if='active == index'>
         <img slot="icon" :src="i.img" v-else>
         <span slot="label">{{i.title}}</span>
+      </tabbar-item> -->
+      
+      <tabbar-item :selected = 'active==0'  link='/home'>
+        <img slot="icon" src="../assets/img/tab_1_a.png" v-if='active == 0'>
+        <img slot="icon" src="../assets/img/tab_1.png" v-else>
+        <span slot="label">资产</span>
+      </tabbar-item>
+       <tabbar-item :selected = 'active==1' link='/price'>
+        <img slot="icon" src="../assets/img/tab_2_a.png" v-if='active == 1'>
+        <img slot="icon" src="../assets/img/tab_2.png" v-else>
+        <span slot="label">行情</span>
+      </tabbar-item>
+       <tabbar-item :selected = 'active==2'  link='/trade'>
+        <img slot="icon" src="../assets/img/tab_3_a.png" v-if='active == 2'>
+        <img slot="icon" src="../assets/img/tab_3.png" v-else>
+        <span slot="label">交易</span>
+      </tabbar-item>
+       <tabbar-item :selected = 'active==3' link='/mine'>
+        <img slot="icon" src="../assets/img/tab_4_a.png" v-if='active == 3'>
+        <img slot="icon" src="../assets/img/tab_4.png" v-else>
+        <span slot="label">我的</span>
       </tabbar-item>
     </tabbar>
-
-    <!-- <tab :line-width="1" custom-bar-width="60px">
-        <tab-item :selected = 'active==1' @on-item-click="onItemClick">资产</tab-item>
-        <tab-item :selected = 'active==2' @on-item-click="onItemClick">行情</tab-item>
-        <tab-item :selected = 'active==3'  @on-item-click="onItemClick">交易</tab-item>
-        <tab-item :selected = 'active==4' @on-item-click="onItemClick">我的</tab-item>
-      </tab> -->
 
   </div>
 </template>

@@ -6,7 +6,7 @@
     <div class="content mine " style="height:calc(100% - 44px)">
       <div class="top-car">
           <ul class="clearfix">
-            <li style="background-image:url('src/assets/img/Bitmap.png')"></li>
+            <li class="bg_img"></li>
             <li><p>苏镇</p><p>ID:2874348</p></li>
           </ul>
           <div class="bottom-bg">
@@ -14,7 +14,13 @@
       </div>
       <group>
         <cell :title="item.title" is-link v-for='(item,index) in list' :key='index' :link='item.link'>
-          <img slot="icon" width="20" style="display:block;margin-right:5px;" :src="item.url">
+          <!-- <img slot="icon" width="20" style="display:block;margin-right:5px;" :src="item.url"> -->
+          <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/img/shi.png" v-if='index==0'>
+          <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/img/change_pass.png" v-if='index==1'>
+          <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/img/change_zijin.png" v-if='index==2'>
+          <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/img/kefu.png" v-if='index==3'>
+          <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/img/help.png" v-if='index==4'>
+          <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/img/kefu.png" v-if='index==5'>
         </cell>
       </group>
     </div> 
@@ -98,6 +104,9 @@ export default {
     ul{
       height: 70px;
       margin-top: 78px;
+      .bg_img{
+        background-image:url('../assets/img/Bitmap.png')
+      }
       li{
         height: 70px;
         width: 70px;
