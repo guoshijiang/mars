@@ -6,7 +6,7 @@
     <div class="content mine " style="height:calc(100% - 44px)">
       <div class="top-car">
           <ul class="clearfix">
-            <li class="bg_img"></li>
+            <li class="bg_img" @click="show=true"></li>
             <li><p>苏镇</p><p>ID:2874348</p></li>
           </ul>
           <div class="bottom-bg">
@@ -26,7 +26,7 @@
     </div> 
     <!-- 底部 -->
     <tab class="tab_footer" :active='3'></tab>
-
+    <actionsheet v-model="show" :menus="menus" @on-click-menu="goOut" show-cancel></actionsheet>
   </div>
 </template>
 
@@ -47,11 +47,15 @@ export default {
       list:[
         {title:'实名认证',img:'',link:'/real',url:'src/assets/img/shi.png'},
         {title:'修改登录密码',img:'',link:'/ChangePassword',url:'src/assets/img/change_pass.png'},
-        {title:'修改资金密码',img:'',link:'',url:'src/assets/img/change_zijin.png'},
+        {title:'修改资金密码',img:'',link:'changeFund',url:'src/assets/img/change_zijin.png'},
         {title:'修改手机号',img:'',link:'/custom',url:'src/assets/img/kefu.png'},
         {title:'帮助中心',img:'',link:'/help',url:'src/assets/img/help.png'},
         {title:'反馈',img:'',link:'/feedback',url:'src/assets/img/kefu.png'},
       ],
+      menus:{
+        menu1:'退出登陆',
+	  },
+	  show:false,
       msg: 'Hello World!',
       val:'ww'
     }

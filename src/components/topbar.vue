@@ -1,25 +1,22 @@
 <template>
   <div class="hb-bar">
    
-   <p> <span class="hb-close"> x</span> <span class="hb-title">{{title}}</span> </p>
-    <!-- <x-header style="background-color:#fff;">{{title}}</x-header> -->
+   <p> <span class="hb-close" @click="close()"> x</span> <span class="hb-title">{{title}}</span> </p>
+    
     
    
   </div>
 </template>
 
 <script>
-import { XHeader, Actionsheet, TransferDom, ButtonTab, ButtonTabItem } from 'vux'
+import {} from 'vux'
 
 export default {
   directives: {
-    TransferDom
+  
   },
   components: {
-    XHeader,
-    Actionsheet,
-    ButtonTab,
-    ButtonTabItem
+   
   },
   props:{
     title:{
@@ -43,6 +40,11 @@ export default {
   },
   created() {
       // console.log('33333')
+  },
+  methods: {
+    close(){
+      this.$router.push({name:'Mine'})
+    }
   },
 }
 </script>

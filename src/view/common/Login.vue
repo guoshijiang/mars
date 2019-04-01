@@ -9,8 +9,8 @@
               <li :class="{'active':login_type =='tel'}" @click='tabChange("tel")'></li> -->
             </ul>
           <div class='hb-input' v-if="login_type =='phone'">
-            <li><span>+86</span> <input type="tel" maxlength="11" style="width:calce(100% - 77px)" placeholder="输入您的手机号"></li>
-            <li class="li-input"><input type="password" maxlength="6" placeholder="请输入您的密码"></li>
+            <li><span>+86</span> <input type="tel" v-model='query.phone' maxlength="11" style="width:calce(100% - 77px)" placeholder="输入您的手机号"></li>
+            <li class="li-input"><input type="password" maxlength="6" v-model='query.code' placeholder="请输入您的密码"></li>
           </div>
           <div class='hb-input' v-if="login_type =='emal'">
             <li><input type='email'  style="width:100%" placeholder="请输入您的邮箱"></li>
@@ -24,16 +24,6 @@
         <div class="box btns">
           <x-button  type="primary" @click.native='goLogin()'>{{login_btn}}</x-button>
         </div>
-         
-          <!-- <group  title="登陆页面">
-              	<x-input title="账号" :max='11' v-model = "query.phone" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile">
-                  <x-button slot="right" type="primary" mini>发送验证码</x-button></x-input>
-             	  <x-input title="验证码" :max='4' v-model = "query.code" type="text" placeholder="请填写4位数验证码"></x-input>
-          	</group>
-          <div class="box btns">
-            <x-button  type="primary" @click.native='goLogin()'>登陆</x-button>
-            <x-button  type="primary" @click.native='goZhuce()'>注册</x-button>
-          </div> -->
          
           <toast v-model="show_err" position='middle' type="text" :text="error"></toast>
           <p class="hb-login-text" @click='goZhuce()'>还没有账号，免费注册</p>

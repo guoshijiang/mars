@@ -1,13 +1,13 @@
 <template>
   <div class="pre" >
        <!-- 顶部 -->
-      <nav-header title='修改密码' back='true'></nav-header> 
+      <nav-header title='修改资金密码' back='true'></nav-header> 
       <div class='content change' style="height:calc(100% - 44px)">
-        <group title="新登录密码">
+        <group title="新资金密码">
           <x-input type='text' placeholder='8-32位，且字母必须大写'   v-model="query.name"></x-input>
         </group>
-        <group title="确认登录密码">
-          <x-input type='text' placeholder='请再次确认登录密码'   v-model="query.name"></x-input>
+        <group title="确认资金密码">
+          <x-input type='text' placeholder='请再次确认资金密码'   v-model="query.name"></x-input>
         </group>
 
         <div class="box btns">

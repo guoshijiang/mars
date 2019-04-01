@@ -78,6 +78,11 @@ export default new Router({
       component:() => import('@/view/mine/ChangePassword.vue'),
     },
     {
+      path:'/changeFund',
+      name:"ChangeFund",
+      component:() => import('@/view/mine/ChangeFund.vue'),
+    },
+    {
       path:'/custom',
       name:"Custom",
       component:() => import('@/view/mine/Custom.vue'),
