@@ -15,14 +15,7 @@
                 <flexbox-item ><div class="flex-demo">RLP</div></flexbox-item>
                 <flexbox-item ><div class="flex-demo">BQB</div></flexbox-item>
             </flexbox>
-            <flexbox class='flex-box'>
-                <flexbox-item ><div class="flex-demo">USDT</div></flexbox-item>
-                <flexbox-item ><div class="flex-demo">BTC</div></flexbox-item>
-                <flexbox-item ><div class="flex-demo">USDT</div></flexbox-item>
-                <flexbox-item ><div class="flex-demo"></div></flexbox-item>
-                <flexbox-item ><div class="flex-demo"></div></flexbox-item>
-                
-            </flexbox>
+
         </div>
         <!-- 充币逻辑 -->
         <div class='put' v-if='query.type=="put" && this.select_db!="请选择"'>

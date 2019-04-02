@@ -25,6 +25,11 @@ export default new Router({
       component:() => import('@/view/Price')
     },
     {
+      path: '/line',
+      name:'Line',
+      component:() => import('@/view/price/Line.vue')
+    },
+    {
       path: '/findb',
       name:'Findb',
       component:() => import('@/view/price/Findb')
@@ -71,6 +76,11 @@ export default new Router({
       path:'/help',
       name:"Help",
       component:() => import('@/view/mine/Help.vue'),
+    },
+    {
+      path:'/help_box',
+      name:"Help_text",
+      component:() => import('@/view/mine/Help_text.vue'),
     },
     {
       path:'/changePassword',

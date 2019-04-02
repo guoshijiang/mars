@@ -19,7 +19,7 @@
 				<li>
 					<div class='flex'><p>可用</p><p>24h量 1000</p></div>
 					<div class='flex'><p >冻结</p><p>12834.5</p></div>
-					<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">12834.5</p></div>
+					<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">≈12834.5</p></div>
 				</li>
 			</div>
 			<div>
@@ -27,7 +27,7 @@
 				<li>
 					<div class='flex'><p>可用</p><p>24h量 1000</p></div>
 					<div class='flex'><p >冻结</p><p>12834.5</p></div>
-					<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">12834.5</p></div>
+					<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">≈12834.5</p></div>
 				</li>
 			</div>
 			<div>
@@ -35,7 +35,7 @@
 				<li>
 					<div class='flex'><p>可用</p><p>24h量 1000</p></div>
 					<div class='flex'><p >冻结</p><p>12834.5</p></div>
-					<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">12834.5</p></div>
+					<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">≈12834.5</p></div>
 				</li>
 			</div>
 			<div>
@@ -43,7 +43,7 @@
 				<li>
 					<div class='flex'><p>可用</p><p>24h量 1000</p></div>
 					<div class='flex'><p >冻结</p><p>12834.5</p></div>
-					<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">12834.5</p></div>
+					<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">≈12834.5</p></div>
 				</li>
 			</div>
 			<div>
@@ -51,7 +51,7 @@
 				<li>
 					<div class='flex'><p>可用</p><p>24h量 1000</p></div>
 					<div class='flex'><p >冻结</p><p>12834.5</p></div>
-					<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">12834.5</p></div>
+					<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">≈12834.5</p></div>
 				</li>
 			</div>
 		</ul>

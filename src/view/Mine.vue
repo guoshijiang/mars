@@ -61,8 +61,9 @@ export default {
     }
   },
   methods: {
-    goOut(){
-      this.$router.push({name:'Login'})
+    goOut(index){
+      // console.log('index',index)
+      if(index=='menu1')  this.$router.push({name:'Login'})
     }
   },
 }

@@ -29,33 +29,33 @@
 			<span>涨幅</span>
 		</div>
 		<ul class="data_box" style='height:calc(100% - 340px)'>
-			<li>
-				<div><p>BTC/usdt</p><p>24h量 1000</p></div>
+			<li @click="goLine()">
+				<div><p>BTC/USDT</p><p>24h量 1000</p></div>
 				<div><p class="new_price">12834.5</p><p>12834.5</p></div>
 				<div class="change_height"><a class="hb_btn_a" href='javascript:;'>+0.34%</a></div>
 			</li>
 			<li>
-				<div><p>BTC/usdt</p><p>24h量 1000</p></div>
+				<div><p>BTC/USDT</p><p>24h量 1000</p></div>
 				<div><p class="new_price">12834.5</p><p>12834.5</p></div>
 				<div class="change_height"><a class="hb_btn_a hb_btn_j" href='javascript:;'>-0.44%</a></div>
 			</li>
 			<li>
-				<div><p>BTC/usdt</p><p>24h量 1000</p></div>
+				<div><p>BTC/USDT</p><p>24h量 1000</p></div>
 				<div><p class="new_price">12834.5</p><p>12834.5</p></div>
 				<div class="change_height"><a class="hb_btn_a" href='javascript:;'>+0.34%</a></div>
 			</li>
 			<li>
-				<div><p>BTC/usdt</p><p>24h量 1000</p></div>
+				<div><p>BTC/USDT</p><p>24h量 1000</p></div>
 				<div><p class="new_price">12834.5</p><p>12834.5</p></div>
 				<div class="change_height"><a class="hb_btn_a" href='javascript:;'>+0.34%</a></div>
 			</li>
 			<li>
-				<div><p>BTC/usdt</p><p>24h量 1000</p></div>
+				<div><p>BTC/USDT</p><p>24h量 1000</p></div>
 				<div><p class="new_price">12834.5</p><p>12834.5</p></div>
 				<div class="change_height"><a class="hb_btn_a" href='javascript:;'>+0.34%</a></div>
 			</li>
 			<li>
-				<div><p>BTC/usdt</p><p>24h量 1000</p></div>
+				<div><p>BTC/USDT</p><p>24h量 1000</p></div>
 				<div><p class="new_price">12834.5</p><p>12834.5</p></div>
 				<div class="change_height"><a class="hb_btn_a" href='javascript:;'>+1.34%</a></div>
 			</li>
@@ -89,6 +89,9 @@ export default {
   methods: {
 	setDb(type){
 		this.$router.push({name:'Findb',query:{type:type}})
+	},
+	goLine(){
+		this.$router.push({name:'Line'})
 	}
   }
 }

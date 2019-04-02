@@ -27,7 +27,7 @@
 			<x-button  type="primary" @click.native='confrm()'>提交</x-button>
 		</div>
 
-        <div v-transfer-dom class="hb_popup_custom">
+    <div v-transfer-dom class="hb_popup_custom">
                
 			<popup v-model="safe" height="220px" is-transparent>
 					

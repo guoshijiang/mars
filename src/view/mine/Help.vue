@@ -4,7 +4,7 @@
       <nav-header title='帮助' back='true'></nav-header> 
       <div class='content help' style="height:calc(100% - 44px)">
         <ul class='clearfix ul-box'>
-          <li v-for="(i,index) in list" :key='index' >{{i.text}}</li>
+          <li v-for="(i,index) in list" :key='index' @click='goDetail()'>{{i.text}}</li>
         </ul>
       </div>
   </div>
@@ -28,7 +28,9 @@ export default {
     navHeader:()=>import('@/components/navHeader')
   },
   methods: {
-    
+    goDetail(){
+      this.$router.push({name:'Help_text'})
+    }
   },
 }
 </script>

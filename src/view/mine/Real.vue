@@ -15,12 +15,15 @@
         <group title="证件号码">
           <x-input type='text' placeholder='请输入证件号码'   v-model="query.name"></x-input>
         </group>
+      	<div class="box btns gap_b">
+          <x-button  type="primary" @click.native='confrm()'>提交</x-button>
+        </div>
       </div>
   </div>
 </template>
 
 <script>
-import { Group,XInput } from 'vux'
+import { Group,XInput,XButton } from 'vux'
 import api from '../../until/help/api'
 export default {
   name: 'help',
@@ -33,7 +36,7 @@ export default {
     }
   },
   components: {
-    Group,XInput,
+    Group,XInput,XButton,
     navHeader:()=>import('@/components/navHeader')
   },
   methods: {
@@ -48,25 +51,39 @@ export default {
   margin-top: 160px;
 }
 .real {
-  .weui-cells__title{
-    font-size: 12px;
-    color:#666;
-    margin-bottom: 0px;
-    margin-top: 1.77em;
+  	.weui-cells__title{
+    	font-size: 12px;
+    	color:#666;
+    	margin-bottom: 0px;
+    	margin-top: 1.77em;
   }
-  .weui-cells::before{
-    border-top:0px;
-  }
-  .weui-cells:after{
-    left:10px;
-    border-bottom: 1px solid #D9D9D9
-  }
-  .vux-x-input-zclwt{
-    &::-webkit-input-placeholder{
-      color:#d0d0d0;
-      font-size: 18px;
-      font-weight: 400px;
-    }
-  }
+  .btns{
+		padding: 0 23px;
+		margin-top: 30px;
+		box-sizing: border-box;
+		.weui-btn_primary{
+			background:linear-gradient(45deg,rgba(28,123,255,1) 0%,rgba(51,199,250,1) 100%);
+		}
+		.weui-btn{
+			font-size: 17px;
+			line-height: 2.653333;
+			font-weight:500;
+			border-radius: 4px;
+		}
+	}
+	.weui-cells::before{
+		border-top:0px;
+	}
+	.weui-cells:after{
+		left:10px;
+		border-bottom: 1px solid #D9D9D9
+	}
+	.vux-x-input-zclwt{
+		&::-webkit-input-placeholder{
+		color:#d0d0d0;
+		font-size: 18px;
+		font-weight: 400px;
+		}
+	}
 }
 </style>

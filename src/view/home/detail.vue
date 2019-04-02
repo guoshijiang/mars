@@ -11,102 +11,34 @@
 				<li>
 					<div class='flex'><p>可用</p><p>24h量 1000</p></div>
 					<div class='flex'><p >冻结</p><p>12834.5</p></div>
-					<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">12834.5</p></div>
+					<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">≈12834.5</p></div>
 				</li>
 			</div>
 		</ul>
 		<div class="price_list" style='height:calc(100% - 136px)'>
 			<p class="clearfix title"><span class="float_left">财务记录</span><span class="float_right" @click="show=true"></span></p>
 			<div class="list_name">
-				<span>数量</span>
-				<span>状态</span>
-				<span>时间</span>
+					<span>类型/数量</span>
+					<span>状态</span>
+					<span>时间</span>
+				</div>
+			<div class="box-list">
+				<div class='box-item' v-for='(i,index) in [{},{},{},{}]' :key='index'>
+					<p class='item_p'>普通充币</p>
+					<div class="item">
+						<span>0.342234</span>
+						<span>已完成</span>
+						<span>2018/09/12 23:22</span>
+					</div>
+				</div>
+				
+				<!-- 无数据展示 -->
+				<div class="no-data">
+					<div class="bg"></div>
+					<p>暂无记录</p>
+				</div>
 			</div>
-			<div class="item">
-				<span>0.342234</span>
-				<span>已完成</span>
-				<span>2018/09/12 23:22</span>
-			</div>
-			<div class="item">
-				<span>0.342234</span>
-				<span>已完成</span>
-				<span>2018/09/12 23:22</span>
-			</div>
-			<div class="item">
-				<span>0.342234</span>
-				<span>已完成</span>
-				<span>2018/09/12 23:22</span>
-			</div>
-			<div class="item">
-				<span>0.342234</span>
-				<span>已完成</span>
-				<span>2018/09/12 23:22</span>
-			</div>
-			<div class="item">
-				<span>0.342234</span>
-				<span>已完成</span>
-				<span>2018/09/12 23:22</span>
-			</div>
-			<div class="item">
-				<span>0.342234</span>
-				<span>已完成</span>
-				<span>2018/09/12 23:22</span>
-			</div>
-			<div class="item">
-				<span>0.342234</span>
-				<span>已完成</span>
-				<span>2018/09/12 23:22</span>
-			</div>
-			<div class="item">
-				<span>0.342234</span>
-				<span>已完成</span>
-				<span>2018/09/12 23:22</span>
-			</div>
-			<div class="item">
-				<span>0.342234</span>
-				<span>已完成</span>
-				<span>2018/09/12 23:22</span>
-			</div>
-			<div class="item">
-				<span>0.342234</span>
-				<span>已完成</span>
-				<span>2018/09/12 23:22</span>
-			</div>
-			<div class="item">
-				<span>0.342234</span>
-				<span>已完成</span>
-				<span>2018/09/12 23:22</span>
-			</div>
-			<div class="item">
-				<span>0.342234</span>
-				<span>已完成</span>
-				<span>2018/09/12 23:22</span>
-			</div>
-			<div class="item">
-				<span>0.342234</span>
-				<span>已完成</span>
-				<span>2018/09/12 23:22</span>
-			</div>
-			<div class="item">
-				<span>0.342234</span>
-				<span>已完成</span>
-				<span>2018/09/12 23:22</span>
-			</div>
-			<div class="item">
-				<span>0.342234</span>
-				<span>已完成</span>
-				<span>2018/09/12 23:22</span>
-			</div>
-			<div class="item">
-				<span>0.342234</span>
-				<span>已完成</span>
-				<span>2018/09/12 23:22</span>
-			</div>
-			<!-- 无数据展示 -->
-			<div class="no-data">
-				<div class="bg"></div>
-				<p>暂无记录</p>
-			</div>
+				
 		</div>
 
 		<actionsheet v-model="show" :menus="menus" @on-click-menu="getSelect" show-cancel></actionsheet>
@@ -212,11 +144,15 @@ export default {
 			}
 		}
 		.price_list{
-			overflow-y: scroll;
+			
 			margin-top: 15px;
 			background-color: #fff;
 			padding: 15px;
 			box-sizing: border-box;
+			.box-list{
+				overflow-y: scroll;
+				height: 100%;
+			}
 			.title{
 				span{
 					color:#333;
@@ -255,6 +191,13 @@ export default {
 					// }
 				}
 
+			}
+			.box-item{
+				width: 100%;
+				p{
+					width: 33.33%;
+					text-align: center;
+				}
 			}
 			.item{
 				background-color: #fff;
