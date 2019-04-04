@@ -30,7 +30,9 @@
         <div class='pick' v-if='query.type=="pick" && this.select_db!="请选择"'>
             <div class="msg">
                 <group title="提币地址">
-                    <x-input type='text' placeholder='区块链地址'   v-model="reslove.address"></x-input>
+                    <x-input type='text' placeholder='区块链地址'   v-model="reslove.address">
+                        <img slot="right-full-height" src="./../../assets/img/saoma.png">
+                    </x-input>
                 </group>
                 <x-input title="地址备注" placeholder='填写备注' class="weui-vcode"></x-input>
                 <x-input title="提币数量" placeholder='最低提币0.01个' class="weui-vcode"></x-input>
@@ -183,6 +185,10 @@ export default {
     background-color: #F0F1F2;
     .select_start{
         background-color: #fff;
+    }
+    .vux-x-input-right-full img{
+        height: 20px;
+        margin-top: 12px;
     }
     .history_list{
          background-color: #fff;

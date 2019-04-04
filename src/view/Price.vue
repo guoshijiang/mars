@@ -6,21 +6,20 @@
     <div class="content price" style="height:calc(100% - 44px)">
 		<div class='car'>
 			<p class="sum_price">总资产</p>
-			<p class="has_count"><span>0.000000</span><span> BTC = 0 CNY</span></p>
+			<p class="has_count"><span>0.000000</span><span> BTC ≈ 1030.99 CNY</span></p>
 			<p class="caozuo clearfix"><span @click="setDb('put')">充币</span><span @click="setDb('pick')">提币</span></p>
 		</div>
 		<div class="safe">
-			<!-- <div class='nei'>
+			<div class='nei'>
 				<ul class="clearfix">
-					<li class="float_left">
-						图
+					<li class="float_left img_bao">
 					</li>
 					<li class="float_left">
-						<p>白起去中心化交易所 </p>
-						<p>给您资金提供安全保</p>
+						<p>去中心化交易所</p>
+						<p>给您资金提供安全保障</p>
 					</li>
 				</ul>
-			</div> -->
+			</div>
 		</div>
 		<p class="hb_new_title">USDT交易对</p>
 		<div class="title">
@@ -28,7 +27,7 @@
 			<span>最新价</span>
 			<span>涨幅</span>
 		</div>
-		<ul class="data_box" style='height:calc(100% - 340px)'>
+		<ul class="data_box" style='height:calc(100% - 341px)'>
 			<li @click="goLine()">
 				<div><p>BTC/USDT</p><p>24h量 1000</p></div>
 				<div><p class="new_price">12834.5</p><p>12834.5</p></div>
@@ -57,7 +56,7 @@
 			<li>
 				<div><p>BTC/USDT</p><p>24h量 1000</p></div>
 				<div><p class="new_price">12834.5</p><p>12834.5</p></div>
-				<div class="change_height"><a class="hb_btn_a" href='javascript:;'>+1.34%</a></div>
+				<div class="change_height"><a class="hb_btn_a" href='javascript:;'>+6.34%</a></div>
 			</li>
 		</ul>
     </div> 
@@ -118,6 +117,10 @@ export default {
 				font-size: 24px;
 				line-height: 24px;
 				margin-top: 10px;
+				span:last-child{
+					font-size: 20px;
+					line-height: 20px;
+				}
 			}
 			.caozuo{
 				margin-top: 27px;
@@ -132,6 +135,7 @@ export default {
 					font-weight: 300;
 					&:last-child{
 						margin-left: 15px;
+						
 					}
 				}
 			}
@@ -143,34 +147,41 @@ export default {
 			margin-top: 15px;
 			padding: 6px;
 			box-sizing: border-box;
-			background-image: url('./../assets/img/safe_bg.png');
+			// background-image: url('./../assets/img/safe_bg.png');
 
 			background-size: cover;
-			// .nei{
-			// 	border:1px solid #fff;
-			// 	border-radius: 4px;
-			// 	height: 56px;
-			// 	color:#fff;
-			// 	ul{
-			// 		padding: 5px 28px;
-			// 		height: 56px;
-			// 		box-sizing: border-box;
-			// 		li{
-			// 			height: 50px;
-						
-			// 		}
-			// 		li:first-child{
-			// 			width: 42px;
-			// 		}
-			// 		li:last-child{
-			// 			margin-left: 20px;
-			// 			p{
-			// 				font-size: 16px;
-			// 			}
-			// 		}
+			.nei{
+				border:1px solid rgba(255,255,255,0.4);
+				border-radius: 4px;
+				height: 65px;
+				color:rgba(255,255,255,0.9);
+				ul{
+					padding: 5px 28px;
+					height: 56px;
+					box-sizing: border-box;
+					li{
+						height: 50px;
+					}
+					.img_bao{
+						background: url('./../assets/img/security.png') center center no-repeat;
+						background-size: cover;
+						margin-top: 4px;
+					}
+					li:first-child{
+						width: 42px;
+					}
+					li:last-child{
+						margin-left: 20px;
+						p{
+							font-size: 16px;
+							line-height: 28px;
+							font-weight: 300;
+							letter-spacing: 3px;
+						}
+					}
 					
-			// 	}
-			// }
+				}
+			}
 		}
 		.hb_new_title{
 			font-size: 16px;

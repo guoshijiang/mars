@@ -17,14 +17,15 @@
 		</ul>
 		<div class="price_list" style='height:calc(100% - 136px)'>
 			<p class="clearfix title"><span class="float_left">财务记录</span><span class="float_right" @click="show=true"></span></p>
-			<div class="list_name">
-					<span>类型/数量</span>
-					<span>状态</span>
-					<span>时间</span>
-				</div>
+				
 			<div class="box-list">
 				<div class='box-item' v-for='(i,index) in [{},{},{},{}]' :key='index'>
 					<p class='item_p'>普通充币</p>
+					<div class="list_name">
+						<span>类型/数量</span>
+						<span>状态</span>
+						<span>时间</span>
+					</div>
 					<div class="item">
 						<span>0.342234</span>
 						<span>已完成</span>
@@ -80,7 +81,6 @@ export default {
 
 <style lang="less">
 .home_detail{
-	// padding: 25px 15px;
 	background-color: #F6F7F8;
 	overflow: hidden;
 		.data_box{
@@ -93,7 +93,7 @@ export default {
 			}
 			.li-title{
 				span{
-					color:#333;
+					color:#999;
 					font-size: 28px;
 					line-height: 28px;
 				}
@@ -154,6 +154,7 @@ export default {
 				height: 100%;
 			}
 			.title{
+				margin-bottom: 10px;
 				span{
 					color:#333;
 					font-size: 18px;
@@ -172,23 +173,14 @@ export default {
 
 				}
 			}
-			.list_name,.item{
-				height: 30px;
+			.list_name{
 				display: flex;
-				margin-top: 13px;
-				line-height: 30px;
-				background: #f5f5f5;
-				font-size:14px;
+				margin-top: 5px;
+				line-height: 12px;
+				font-size:12px;
 				span{
-					flex: 1;text-align: center;color:#666666;
-					// &:first-child{
-					// 	text-align: left;
-					// 	text-indent: 10px;
-					// }
-					// &:last-child{
-					// 	text-align: right;
-					// 	margin-right: 10px;
-					// }
+					flex: 1;text-align: left;color:#666666;
+					
 				}
 
 			}
@@ -196,13 +188,22 @@ export default {
 				width: 100%;
 				p{
 					width: 33.33%;
-					text-align: center;
+					text-align: left;
+					margin-top: 8px;
 				}
 			}
 			.item{
-				background-color: #fff;
+				height: 30px;
+				display: flex;
+				margin-top: 13px;
+				line-height: 30px;
 				margin-top: 0px;
 				font-size: 14px;
+				border-bottom: 1px solid #E6E6E6;
+				span{
+					flex: 1;text-align: left;color:#666666;
+					
+				}
 				span:first{
 					text-indent: 0px;
 				}

@@ -6,18 +6,30 @@
  	<div class="content home" style="height:calc(100% - 44px)">
 		<div class='car'>
 			<p class="sum_price">总资产</p>
-			<p class="has_count"><span>0.00000000</span><span> BTC = 0 CNY</span></p>
-			<p class="price_name"><span>资产折合 USDT</span><span> BTC = 0 CNY</span></p>
+			<p class="has_count"><span>0.0000</span><span> USDT≈ 1000 CNY</span></p>
+			<p class="price_name"><span>资产折合 USDT</span>
+				<!-- <span> BTC = 0 CNY</span> -->
+			</p>
 			<p class="caozuo clearfix"><span @click="setDb('put')">充币</span><span @click="setDb('pick')">提币</span></p>
 		</div>
 		<div class="safe">
+			<div class='nei'>
+				<ul class="clearfix">
+					<li class="float_left img_bao">
+					</li>
+					<li class="float_left">
+						<p>去中心化交易所</p>
+						<p>给您资金提供安全保障</p>
+					</li>
+				</ul>
+			</div>
 		</div>
 	
-		<ul class="data_box" style='height:calc(100% - 290px)'>
+		<ul class="data_box" style='height:calc(100% - 303px)'>
 			<div @click="goDetail()"> 
 				<p class="clearfix li-title"><span class="float_left">BTC</span>	<span class="float_right">></span></p>
 				<li>
-					<div class='flex'><p>可用</p><p>24h量 1000</p></div>
+					<div class='flex'><p>可用</p><p>1000</p></div>
 					<div class='flex'><p >冻结</p><p>12834.5</p></div>
 					<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">≈12834.5</p></div>
 				</li>
@@ -25,7 +37,7 @@
 			<div>
 				<p class="clearfix li-title"><span class="float_left">BTC</span>	<span class="float_right">></span></p>
 				<li>
-					<div class='flex'><p>可用</p><p>24h量 1000</p></div>
+					<div class='flex'><p>可用</p><p> 1000</p></div>
 					<div class='flex'><p >冻结</p><p>12834.5</p></div>
 					<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">≈12834.5</p></div>
 				</li>
@@ -33,7 +45,7 @@
 			<div>
 				<p class="clearfix li-title"><span class="float_left">BTC</span>	<span class="float_right">></span></p>
 				<li>
-					<div class='flex'><p>可用</p><p>24h量 1000</p></div>
+					<div class='flex'><p>可用</p><p> 1000</p></div>
 					<div class='flex'><p >冻结</p><p>12834.5</p></div>
 					<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">≈12834.5</p></div>
 				</li>
@@ -41,7 +53,7 @@
 			<div>
 				<p class="clearfix li-title"><span class="float_left">BTC</span>	<span class="float_right">></span></p>
 				<li>
-					<div class='flex'><p>可用</p><p>24h量 1000</p></div>
+					<div class='flex'><p>可用</p><p> 1000</p></div>
 					<div class='flex'><p >冻结</p><p>12834.5</p></div>
 					<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">≈12834.5</p></div>
 				</li>
@@ -49,9 +61,9 @@
 			<div>
 				<p class="clearfix li-title"><span class="float_left">BTC</span>	<span class="float_right">></span></p>
 				<li>
-					<div class='flex'><p>可用</p><p>24h量 1000</p></div>
+					<div class='flex'><p>可用</p><p> 1000</p></div>
 					<div class='flex'><p >冻结</p><p>12834.5</p></div>
-					<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">≈12834.5</p></div>
+					<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">≈333834.5</p></div>
 				</li>
 			</div>
 		</ul>
@@ -107,6 +119,7 @@ export default {
 			padding: 17px 15px;
 			box-sizing: border-box;
 			color:#fff;
+			margin-bottom: 20px;
 			.sum_price{
 				font-size: 14px;
 				line-height: 14px;
@@ -119,9 +132,13 @@ export default {
 				margin-top: 14px;
 				span{
 					display: inline-block;
-					width: 50%;
+					&:first-child{
+						width: 40%;
+					}
 					&:last-child{
-						// margin-left: 50px;
+						width: 60%;
+						font-size: 18px;
+						line-height: 18px;
 					}
 				}
 			}
@@ -164,10 +181,42 @@ export default {
 			margin-top: 15px;
 			padding: 6px;
 			box-sizing: border-box;
-			background-image: url('./../assets/img/safe_bg.png');
+			// background-image: url('./../assets/img/safe_bg.png');
 
-			background-size: cover;
+			// background-size: cover;
 			margin-bottom: 24px;
+			.nei{
+				border:1px solid rgba(255,255,255,0.4);
+				border-radius: 4px;
+				height: 65px;
+				color:rgba(255,255,255,0.9);
+				ul{
+					padding: 5px 28px;
+					height: 56px;
+					box-sizing: border-box;
+					li{
+						height: 50px;
+					}
+					.img_bao{
+						background: url('./../assets/img/security.png') center center no-repeat;
+						background-size: cover;
+						margin-top: 4px;
+					}
+					li:first-child{
+						width: 42px;
+					}
+					li:last-child{
+						margin-left: 20px;
+						p{
+							font-size: 16px;
+							line-height: 28px;
+							font-weight: 300;
+							letter-spacing: 3px;
+						}
+					}
+					
+				}
+			}
 		}
 		.data_box{
 			overflow-y: scroll;

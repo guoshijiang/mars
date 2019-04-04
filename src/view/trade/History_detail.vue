@@ -80,7 +80,8 @@ export default {
         }  
         .weui-cells{
             &::after{
-                border-bottom:0px !important;
+                // border-bottom:0px !important;
+                left: 15px !important;
             }
             margin-top: 0px;
             .vux-label{
@@ -91,13 +92,7 @@ export default {
             }
             .weui-cell{
                 font-size: 14px;
-                line-height: 14px;
-            }
-            .weui-cell::before{
-                border-top:0px;
-            }
-            .weui-cell::after{
-                border-top:0px;
+                line-height: 22px;
             }
             .weui-cell__ft{
                 color:#333;

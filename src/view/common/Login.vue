@@ -12,10 +12,10 @@
             <li><span>+86</span> <input type="tel" v-model='query.phone' maxlength="11" style="width:calce(100% - 77px)" placeholder="输入您的手机号"></li>
             <li class="li-input"><input type="password" maxlength="6" v-model='query.code' placeholder="请输入您的密码"></li>
           </div>
-          <div class='hb-input' v-if="login_type =='emal'">
+          <!-- <div class='hb-input' v-if="login_type =='emal'">
             <li><input type='email'  style="width:100%" placeholder="请输入您的邮箱"></li>
             <li class="li-input"><input type="password" maxlength="6" placeholder="请输入您的密码"></li>
-          </div>
+          </div> -->
           <div class='hb-input' v-if="login_type =='tel'">
             <li><span>+86</span> <input type="tel" maxlength="11" style="width:calce(100% - 77px)" placeholder="输入您的手机号"></li>
           </div>
@@ -45,7 +45,7 @@ export default {
       },
       login_list:[
         {type:'phone',btn:'登陆交易所',txt:'手机号'},
-        {type:'emal',btn:'登陆交易所',txt:'邮箱'},
+        // {type:'emal',btn:'登陆交易所',txt:'邮箱'},
         {type:'tel',btn:'手机号一键登录',txt:'手机号快捷'},
         
       ],

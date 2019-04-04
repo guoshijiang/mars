@@ -46,10 +46,9 @@ export default {
 			// code:'',
 		},
 		register_list:[
-        {type:'phone',btn:'注册',txt:'手机号'},
-        {type:'emal',btn:'注册',txt:'邮箱'},
-        
-			],
+        	{type:'phone',btn:'注册',txt:'手机号'},
+        // {type:'emal',btn:'注册',txt:'邮箱'},
+        ],
 			register_type:'phone',
 			register_btn:'手机号'
     }
