@@ -1,8 +1,10 @@
 import axios from "axios";
-const HOST = {
-	qingoo:'http://192.168.1.5:5000',
-	// mzm:'https://socketapi.writingai.cn'
-}
+import ENV from '../ENV'
+// const ENV = {
+// 	qingoo:'http://192.168.1.5:5000',
+// 	// mzm:'https://socketapi.writingai.cn'
+// 	storage:'localStorage', //sessionStorage
+// }
 const axiosInstance = axios.create({
 	headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -34,7 +36,13 @@ axiosInstance.interceptors.response.use(function (response) {
   
 class Req{
 	constructor(){}
-
+	/**
+	 * 
+	 * @param {*} method 请求方式
+	 * @param {*} url 请求url
+	 * @param {*} params get请求的参数
+	 * @param {*} data post的请求参数
+	 */
 	static req(method,url, params, data){
 		return axiosInstance({
 			method: method || "post",
@@ -43,13 +51,16 @@ class Req{
 			data: data
 		});
 	}
+
 	//axios的get请求
-	static aGET(url, params,host){
-		// return axios.get(HOST[host]+url,{params:params})
+	static aGET(url, params){
+		return axios.get(HOST[host]+url,{params:params})
 	}
 	//axios的post请求
-	static aPOST(url, data,host){
-		// return axios.post(HOST[host]+url,data)
+	static POST(url, data){
+		// let param = data ? JSON.stringify(data):'';
+		console.log('请求',data)
+		return axios.post(ENV.hb_host+url,data)
 	}
 }
 

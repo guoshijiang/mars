@@ -10,7 +10,6 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
@@ -48,7 +47,7 @@ module.exports = {
     // 当您拥有单独的API后端开发服务器并且希望在同一域上发送API请求时，代理某些URL会很有用
     proxyTable: {
       "/api": {
-        target: 'http://192.168.1.5:5000',//"http://localhost:9020", // mock服务地址 代理
+        target: 'http://120.78.206.130:8080',//"http://localhost:9020", // mock服务地址 代理
         changeOrigin: true // 代理服务器会在请求头中加入相应Host首部
         // pathRewrite: {
         //   "^/api": "/api"
@@ -66,7 +65,6 @@ module.exports = {
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',//正式的打包本地看时需要改当前的path'./'  原来是'/'
-
     /**
      * Source Maps
      */

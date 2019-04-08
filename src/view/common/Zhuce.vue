@@ -9,63 +9,124 @@
               <li :class="{'active':login_type =='tel'}" @click='tabChange("tel")'></li> -->
             </ul>
           	<group class='register-input' v-if='register_type=="phone"'>
-              	<x-input  v-model = "query.tel" :max='11' name="mobile" type='tel' placeholder="请输入手机号码" keyboard="number" is-type="china-mobile"><x-button slot="right" mini>发送验证码</x-button></x-input>
+              	<x-input  v-model = "query.phone" :max='11' name="mobile" type='tel' placeholder="请输入手机号码" keyboard="number" is-type="china-mobile"><x-button slot="right" mini @click.native="getCode()">{{time? time+'s重新获取':'发送验证码'}}</x-button></x-input>
              		<x-input  v-model = "query.code" type="number" placeholder="请填写4位数验证码" ></x-input>
-              	<x-input  v-model = "query.password" placeholder="至少6位任意字符" :min="6" ></x-input>
+              	<x-input  v-model = "query.assetPwd" type='password' placeholder="至少6位任意字符" :min="6" ></x-input>
           	</group>
-						<group class='register-input' v-if='register_type=="emal"'>
+			<group class='register-input' v-if='register_type=="emal"'>
                 <x-input  v-model = "query.email" type="email" name="email" placeholder="请输入邮箱地址" is-type="email"></x-input>
-              	<x-input  v-model = "query.password"  placeholder="至少6位任意字符" :min="6" ></x-input>
+              	<x-input  v-model = "query.assetPwd"  placeholder="至少6位任意字符" :min="6" ></x-input>
           	</group>
 				</div>
 			<div class="box btns">
 				<x-button  type="primary" @click.native='register()'>注册</x-button>
 			</div>
           <p class="hb-login-text" @click='goLogin()'>已有账号？去登录</p>
+		  <toast v-model="show_err" position='middle' type="text" :text="err_txt"></toast>
       </div>
   </div>
 </template>
 
 <script>
-import { XInput, Group, XButton, Cell } from 'vux'
+import { XInput, Group, XButton, Cell,Toast } from 'vux'
+import api from '../../until/help/api'
+import factory from '../../until/factory/index'
 export default {
   name: 'Zhuce',
   components: {
     XInput,
     XButton,
-    Group,
-		Cell,
-		topBar:()=>import('@/components/topbar')
+    Group,Cell,Toast,
+	topBar:()=>import('@/components/topbar')
   },
-  data () {
-    return {
-		query:{
-			email:'',
-			phone:'',
-			password:'',
-			// code:'',
-		},
-		register_list:[
-        	{type:'phone',btn:'注册',txt:'手机号'},
-        // {type:'emal',btn:'注册',txt:'邮箱'},
-        ],
+	data () {
+		return {
+			query:{
+				// email:'',
+				phone:'',
+				assetPwd:'',
+				code:'',
+			},
+			//祖册选择
+			register_list:[
+				{type:'phone',btn:'注册',txt:'手机号'},
+			// {type:'emal',btn:'注册',txt:'邮箱'},
+			],
 			register_type:'phone',
-			register_btn:'手机号'
-    }
-  },
-  methods: {
+			register_btn:'手机号',
+
+			show_err:false,
+			err_txt:'',
+			time_Interval:null,
+			time:0,
+		}
+	},
+	methods: {
 		tabChange(item){
-      this.register_type = item.type;
-      this.register_btn = item.btn;
-    },
-	  goLogin(){
-		  this.$router.push({name:'Login'})
-	  },
-	  register(){
+			this.register_type = item.type;
+			this.register_btn = item.btn;
+		},
+		goLogin(){
+			this.$router.push({name:'Login'})
+		},
+		//获取验证码
+		getCode(){
+			if(!this.query.phone){
+				this.err_txt='请输入手机号'
+				this.show_err = true;
+				return false;
+			}
+			if(this.time>0){
+				return false;
+			}
+			this.time_Interval = null;
+			this.time +=1
+			this.time_Interval = setInterval(() => {
+				this.time +=1;
+				if(this.time>60){
+					clearInterval(this.time_Interval);
+					this.time_Interval = null;
+					this.time = 0;
+				}
+			}, 1000);
+			api.getCode('',{phone:this.query.phone}).then((res)=>{
+				console.log(res)
+				if(res.data.code==200){
+
+				}else {
+					this.err_txt=res.data.message;
+					this.show_err = true;
+				}
+			})
+		},
+		//注册
+		register(){
+			
 			console.log(this.query)
-			this.$router.push({name:'setPassword'})
-	  }
-  },
+			let err = [];
+			if(!this.query.phone) err.push('请输入手机号')
+			if(!this.query.code) err.push('请输入验证码')
+			if(!this.query.assetPwd) err.push('请设置密码')
+			if(err.lenght>0){
+				this.err_txt = err[0];
+				this.show_err = true;
+				return false;
+			}
+			
+			api.register(this.query).then(res=>{
+				if(res.data.code==200){
+					this.$router.push({name:'setPassword'})
+				}else{
+					this.err_txt=res.data.message;
+					this.show_err = true;
+				}
+			})
+		}
+	},
+	destroyed(){
+		this.time_Interval=null;
+		this.time = 0
+	}
 }
 </script>
 
@@ -83,12 +144,16 @@ export default {
         }
 	}
 	.weui-cell__ft .weui-btn{
-		background-color:#fff;
+		background-color:#fff;//获取验证码
 		color:#33C7FA;
 		border:0;
 		&::after{
 			border:0;
 		}
+	}
+	.weui-btn_default:not(.weui-btn_disabled):active{
+		background-color:#fff;
+		color:#33C7FA;
 	}
 	.hb-login-text{
 		width:100%;

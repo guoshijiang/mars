@@ -16,11 +16,47 @@ class Api {
             }
         })
     }
-    //获取我的编辑
-    static getEditListOld(params,data){
+    //获取验证码
+    static getCode(params,data){
         return new Promise(async(resolve,reject)=>{
             try {
-                let res = await req.req('get',"/v2/editors", params, data,'qingoo')
+                let res = await req.POST("/user/sendRegistCode", data)
+                return resolve(res)
+            } catch (error) {
+                return reject(error)
+            }
+        })
+    }
+    //手机号注册 
+    static register(data){
+        return new Promise(async(resolve,reject)=>{
+            try {
+                let res = await req.POST("/user/registerPhone", data)
+                return resolve(res)
+            } catch (error) {
+                return reject(error)
+            }
+        })
+    }
+    //登陆
+    static loginHb(params,data){
+        return new Promise(async(resolve,reject)=>{
+            try {
+                let res = await req.req('POST',"/v2/user/loginByPhone", params, data)
+                return resolve(res)
+            } catch (error) {
+                return reject(error)
+            }
+        })
+    }
+    /***
+     * 接口请求统一处理
+     * 
+    */
+    static APIPOSTMAN(type,url,params,data){
+        return new Promise(async(resolve,reject)=>{
+            try {
+                let res = await req.req('POST',url, params, data)
                 return resolve(res)
             } catch (error) {
                 return reject(error)

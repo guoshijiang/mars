@@ -65,14 +65,10 @@ html,body {
   height: 100%;
   overflow: hidden;
 }
-.has_footer{
-}
+
 .content{
   height: 100%;
   overflow-y: scroll;
-}
-.has-header{
-
 }
 .gap_b{
   margin-bottom: 30px;

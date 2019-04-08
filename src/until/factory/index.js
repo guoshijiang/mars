@@ -1,4 +1,5 @@
 
+import ENV from '../ENV.js'
 class factory {
     static setTimeout = null 
     static office_converter
@@ -15,6 +16,29 @@ class factory {
     static delay_fun = function(cb, ts) {
         clearTimeout(this.setTimeout)
         this.setTimeout = setTimeout(cb, ts)
+    }
+    static storage(ENV){
+        function Storage(storage) {
+            this.get = function(name,data) {
+                return JSON.parse(window[storage][name]) || {}
+            };
+            this.set = function (name,data) {
+                if(window[storage]){
+                    window[storage].setItem(name,JSON.stringify(data));
+                    return true;
+                }else return false;
+            };
+            this.romeve = function(){
+                window[storge].removeItem(name);
+            };
+            this.clear = function(){
+                window[storge].clear();
+            }
+        }
+        if(window[ENV.storage]){
+            return new Storage(ENV.storage)
+        }else return {}
+        
     }
 
     static get_y_m_d(ts) {
@@ -38,10 +62,6 @@ class factory {
         let nowDate = year + '-' + month + '-' + day
         return nowDate
     }
-
-    
-
-
     /*
        数字转中文
        @number {Integer} 形如123的数字
@@ -149,12 +169,10 @@ class factory {
         })
         return number
     }
-
-
     
 }
 
-
-export default {
-    phone_reg_fag:factory.get_phone_reg
+export default{
+    phone_reg_fag:factory.get_phone_reg,
+    Storage:factory.storage(ENV)
 }

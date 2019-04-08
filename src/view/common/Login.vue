@@ -18,6 +18,7 @@
           </div> -->
           <div class='hb-input' v-if="login_type =='tel'">
             <li><span>+86</span> <input type="tel" maxlength="11" style="width:calce(100% - 77px)" placeholder="输入您的手机号"></li>
+			<li class="li-input"><input type="num" maxlength="6" placeholder="请输入您的验证码"></li>
           </div>
         </div>
 
@@ -32,8 +33,8 @@
 </template>
 
 <script>
-import phone_reg_fag from './../../until/factory/index'
 import api from '../../until/help/api'
+import factory from '../../until/factory/index'
 import { XInput, XButton,Group,Toast } from 'vux'
 export default {
   name: 'Login',
@@ -67,7 +68,6 @@ export default {
       this.login_btn = item.btn;
     },
     async goLogin(){
-      console.log(this.query)
       if(!/^(1\d{10})$/.test(this.query.phone)){
          this.error ='手机号不对'
          this.show_err = true
@@ -78,8 +78,16 @@ export default {
          this.show_err = true
          return false;
       }
-      this.$router.push({name:'Home'})
-      window.localStorage.setItem('userInfo',JSON.stringify(this.query))
+      api.APIPOSTMAN('POST','/v2/user/loginByPhone','',this.query).then(res=>{
+			if(res.code==0){
+				factory.Storage.set('userInfo',res)
+				this.$router.push({name:'Home'})
+			}else{
+				this.err_txt=res.message;
+				this.show_err = true;
+			}
+		})
+      	
       
     },
     goZhuce(){
