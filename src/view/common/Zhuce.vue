@@ -10,16 +10,16 @@
             </ul>
           	<group class='register-input' v-if='register_type=="phone"'>
               	<x-input  v-model = "query.phone" :max='11' name="mobile" type='tel' placeholder="请输入手机号码" keyboard="number" is-type="china-mobile"><x-button slot="right" mini @click.native="getCode()">{{time? time+'s重新获取':'发送验证码'}}</x-button></x-input>
-             		<x-input  v-model = "query.code" type="number" placeholder="请填写4位数验证码" ></x-input>
-              	<x-input  v-model = "query.assetPwd" type='password' placeholder="至少6位任意字符" :min="6" ></x-input>
+             	<x-input  v-model = "query.code" type="number" placeholder="请填写6位数验证码" ></x-input>
+              	<x-input  v-model = "query.loginPwd" type='password' placeholder="至少6位任意字符" :min="6" ></x-input>
           	</group>
 			<group class='register-input' v-if='register_type=="emal"'>
                 <x-input  v-model = "query.email" type="email" name="email" placeholder="请输入邮箱地址" is-type="email"></x-input>
-              	<x-input  v-model = "query.assetPwd"  placeholder="至少6位任意字符" :min="6" ></x-input>
+              	<x-input  v-model = "query.loginPwd"  placeholder="至少6位任意字符" :min="6" ></x-input>
           	</group>
 				</div>
 			<div class="box btns">
-				<x-button  type="primary" @click.native='register()'>注册</x-button>
+				<x-button  type="primary" @click.native='register()'>下一步</x-button>
 			</div>
           <p class="hb-login-text" @click='goLogin()'>已有账号？去登录</p>
 		  <toast v-model="show_err" position='middle' type="text" :text="err_txt"></toast>
@@ -30,7 +30,7 @@
 <script>
 import { XInput, Group, XButton, Cell,Toast } from 'vux'
 import api from '../../until/help/api'
-import factory from '../../until/factory/index'
+
 export default {
   name: 'Zhuce',
   components: {
@@ -44,7 +44,7 @@ export default {
 			query:{
 				// email:'',
 				phone:'',
-				assetPwd:'',
+				loginPwd:'',
 				code:'',
 			},
 			//祖册选择
@@ -106,21 +106,14 @@ export default {
 			let err = [];
 			if(!this.query.phone) err.push('请输入手机号')
 			if(!this.query.code) err.push('请输入验证码')
-			if(!this.query.assetPwd) err.push('请设置密码')
+			if(!this.query.loginPwd) err.push('请设置密码')
 			if(err.lenght>0){
 				this.err_txt = err[0];
 				this.show_err = true;
 				return false;
 			}
+			this.$router.push({name:'setPassword',params:this.query})
 			
-			api.register(this.query).then(res=>{
-				if(res.data.code==200){
-					this.$router.push({name:'setPassword'})
-				}else{
-					this.err_txt=res.data.message;
-					this.show_err = true;
-				}
-			})
 		}
 	},
 	destroyed(){

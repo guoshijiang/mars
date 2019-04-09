@@ -1,43 +1,76 @@
 <template>
   <div class="pre" style="height:calc(100% - 44px)">
 		  <!-- <top-bar title='注册'></top-bar>  -->
-          <nav-header title='设置资金密码'  back='true'></nav-header>
-      <div class='content set_change'>
-		   <div class='hb-register gap'>
-				<group class='register-input'>
-            <x-input  v-model = "query.password"  placeholder="请设置资金密码" :min="6" ></x-input>
-        </group>
+        <nav-header title='设置资金密码'  back='true'></nav-header>
+		<div class='content set_change'>
+			<div class='hb-register gap'>
+					<group class='register-input'>
+				<x-input  v-model = "query.assetPwd"  placeholder="请设置资金密码" :min="6" ></x-input>
+			</group>
+					</div>
+				<div class="box btns">
+					<x-button  type="primary" @click.native='login()'>完成注册并登陆</x-button>
 				</div>
-			<div class="box btns">
-				<x-button  type="primary" @click.native='login()'>完成注册并登陆</x-button>
-			</div>
-      </div>
+		</div>
+	  <toast v-model="show_err" position='middle' type="text" :text="err_txt"></toast>
   </div>
 </template>
 
 <script>
-import { XInput, Group, XButton, Cell } from 'vux'
+import { XInput, Group, XButton, Cell,Toast } from 'vux'
+import api from '../../until/help/api'
+import factory from '../../until/factory/index'
 export default {
   name: 'Zhuce',
   components: {
     XInput,
     XButton,
     Group,
-		Cell,
+		Cell,Toast,
         topBar:()=>import('@/components/topbar'),
         navHeader:()=>import('@/components/navHeader')
   },
   data () {
     return {
-		query:{
-			password:'',
-		}
-    }
-  },
+			query:{
+				assetPwd:'',
+			},
+			show_err:false,
+			err_txt:'',
+    	}
+	},
+	mounted() {
+		console.log(this.$route)
+		let param = this.$route.params;
+		this.query = Object.assign(this.query,param);
+
+	},
   methods: {
 
-	  login(){
-		  this.$router.push({name:'Home'})
+	  async login(){
+			// this.$router.push({name:'Home'})
+			try {
+				let regist = await api.register(this.query)
+				if(regist.data.code==200){
+					let res = await api.register(this.query)
+					if(res.data.code==200){
+						factory.Storage.set('userInfo',res.data.result)
+						
+					}else{
+						this.err_txt=res.data.message;
+						this.show_err = true;
+					}
+					
+				}else{
+					this.err_txt=res.data.message;
+					this.show_err = true;
+				}
+			} catch (error) {
+				console.log('err',error)
+				this.err_txt='服务正忙，请稍后再试';
+				this.show_err = true;
+			}
+			
 	  },
   },
 }

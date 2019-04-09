@@ -20,6 +20,7 @@ class Api {
     static getCode(params,data){
         return new Promise(async(resolve,reject)=>{
             try {
+                // let res = await req.req('POST',"/user/sendRegistCode",'', data)
                 let res = await req.POST("/user/sendRegistCode", data)
                 return resolve(res)
             } catch (error) {
@@ -42,7 +43,7 @@ class Api {
     static loginHb(params,data){
         return new Promise(async(resolve,reject)=>{
             try {
-                let res = await req.req('POST',"/v2/user/loginByPhone", params, data)
+                let res = await req.POST("/user/loginByPhone", data)
                 return resolve(res)
             } catch (error) {
                 return reject(error)
@@ -50,13 +51,13 @@ class Api {
         })
     }
     /***
-     * 接口请求统一处理
+     * 接口请求统一处理 
      * 
     */
-    static APIPOSTMAN(type,url,params,data){
+    static APIPOSTMAN(type,url,data){
         return new Promise(async(resolve,reject)=>{
             try {
-                let res = await req.req('POST',url, params, data)
+                let res = await req[type](url, data)
                 return resolve(res)
             } catch (error) {
                 return reject(error)

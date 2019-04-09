@@ -7,11 +7,11 @@ import ENV from '../ENV'
 // }
 const axiosInstance = axios.create({
 	headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
         'Cache-Control': 'no-cache',
-        'Postman-Token': '3d453e52-72ac-4662-96fd-1b71e6c1d44c'
+        'Postman-Token': 'cc14a5c6-b67d-4c08-b46e-91ddc6c6bc65'
 	},
-	baseURL:  '', // 设置 baseURL
+	// baseURL:  '', // 设置 baseURL
 	// timeout: 5000 // 请求超时时间
 });
 
@@ -46,7 +46,8 @@ class Req{
 	static req(method,url, params, data){
 		return axiosInstance({
 			method: method || "post",
-			url: url, //HOST.qingoo + url,
+			// url: url, //HOST.qingoo + url,
+			url:ENV.hb_host+url,
 			params: params,
 			data: data
 		});
@@ -60,6 +61,7 @@ class Req{
 	static POST(url, data){
 		// let param = data ? JSON.stringify(data):'';
 		console.log('请求',data)
+		// if()
 		return axios.post(ENV.hb_host+url,data)
 	}
 }

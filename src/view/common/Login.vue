@@ -10,7 +10,9 @@
             </ul>
           <div class='hb-input' v-if="login_type =='phone'">
             <li><span>+86</span> <input type="tel" v-model='query.phone' maxlength="11" style="width:calce(100% - 77px)" placeholder="输入您的手机号"></li>
-            <li class="li-input"><input type="password" maxlength="6" v-model='query.code' placeholder="请输入您的密码"></li>
+			
+			<li><x-input  v-model = "query.code" type="number" placeholder="请填写6位数验证码" ><x-button slot="right" mini @click.native="getCode()">{{time? time+'s重新获取':'发送验证码'}}</x-button></x-input></li>
+            <li class="li-input"><input type="password" maxlength="6" v-model='query.loginPwd' placeholder="请输入您的密码"></li>
           </div>
           <!-- <div class='hb-input' v-if="login_type =='emal'">
             <li><input type='email'  style="width:100%" placeholder="请输入您的邮箱"></li>
@@ -42,7 +44,8 @@ export default {
     return {
       query:{
         phone:"",
-        code:'',
+		code:'',
+		loginPwd:''
       },
       login_list:[
         {type:'phone',btn:'登陆交易所',txt:'手机号'},
@@ -51,9 +54,12 @@ export default {
         
       ],
       login_type:'phone',
-      login_btn:'登陆交易所',
-      error:'',
-      show_err:false,
+	  login_btn:'登陆交易所',
+	  
+       error:'',
+	   show_err:false,
+	    time_Interval:null,
+		time:0,
     }
   },
   components: {
@@ -73,23 +79,55 @@ export default {
          this.show_err = true
          return false;
       }
-      if(this.query.code!='1111'){
+      if(!this.query.code){
         this.error ='验证码错误'
          this.show_err = true
          return false;
       }
-      api.APIPOSTMAN('POST','/v2/user/loginByPhone','',this.query).then(res=>{
-			if(res.code==0){
-				factory.Storage.set('userInfo',res)
+      api.APIPOSTMAN('POST','/user/loginByPhone',this.query).then(res=>{
+		  console.log(res.data.message)
+			if(res.data.code==200){
+				factory.Storage.set('userInfo',res.data.result)
 				this.$router.push({name:'Home'})
 			}else{
-				this.err_txt=res.message;
+				this.error = res.data.message;
 				this.show_err = true;
 			}
 		})
       	
       
-    },
+	},
+	getCode(){
+		if(!this.query.phone){
+			this.error='请输入手机号'
+			this.show_err = true;
+			return false;
+		}
+		if(this.time>0){
+			return false;
+		}
+		this.time_Interval = null;
+		this.time +=1
+		try {
+			this.time_Interval = setInterval(() => {
+			this.time +=1;
+			if(this.time>60){
+						clearInterval(this.time_Interval);
+						this.time_Interval = null;
+						this.time = 0;
+					}
+				}, 1000);
+				api.APIPOSTMAN('POST','/user/sendLoginCode',this.query).then(res=>{
+					if(res.data.code==200){
+					}else{
+						this.error=res.data.message;
+						this.show_err = true;
+				}
+			})
+		} catch (error) {
+			console.log(error)
+		}
+	},
     goZhuce(){
       this.$router.push('/zhuce')
     }
@@ -179,7 +217,18 @@ export default {
         line-height: 48px;
         border-bottom: 1px solid #d4d4d4;
         
-      }
+	  }
+	  .weui-cell{
+		  padding: 0;
+		  .weui-cell__ft .weui-btn{
+			background-color:#fff;//获取验证码
+			color:#33C7FA;
+			border:0;
+			&::after{
+				border:0;
+			}
+		}
+	  }
       
     }
     .li-input input{
