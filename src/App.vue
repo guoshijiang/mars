@@ -21,7 +21,10 @@ export default {
   components:{
     // tab:()=>import('@/components/tab'),
     // navHeader:()=>import('@/components/navHeader')
-  }
+  },
+  created() {
+    this.$store.dispatch('initSettings') 
+  },
 
 }
 </script>

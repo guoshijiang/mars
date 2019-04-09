@@ -7,7 +7,7 @@
       <div class="top-car">
           <ul class="clearfix">
             <li class="bg_img" @click="show=true"></li>
-            <li><p>苏镇</p><p>ID:2874348</p></li>
+            <li><p>{{this.userInfo.name || '未登录'}}</p><p>ID:{{this.userInfo.id || '未知'}}</p></li>
           </ul>
           <div class="bottom-bg">
           </div>
@@ -33,7 +33,8 @@
 <script>
 import { Group, Cell } from 'vux'
 import { Actionsheet } from 'vux'
-
+import factory from '../until/factory' 
+import { mapState,mapMutations } from "vuex";
 export default {
   components: {
     Group,
@@ -60,12 +61,27 @@ export default {
       val:'ww'
     }
   },
-  methods: {
-    goOut(index){
-      // console.log('index',index)
-      if(index=='menu1')  this.$router.push({name:'Login'})
+  computed: {
+         ...mapState(["userInfo"])
+         
+  },
+  mounted() {
+    if(!this.userInfo.name){
+      this.menus.menu1 = '登陆'
     }
   },
+  methods: {
+    	...mapMutations(["setUser"]),
+    	goOut(index){
+		console.log('index',index)
+		
+			if(index=='menu1') {
+				this.$router.push({name:'Login'})
+				factory.Storage.romeve('userInfo');
+				this.setUser('')
+			} 
+		}
+  	},
 }
 </script>
 
@@ -125,7 +141,7 @@ export default {
       li:last-child{
         padding-left: 18px;
         color:#fff;
-        p{font-size: 26px;line-height: 26px;margin-top: 10px;}
+        p{font-size: 21px;line-height: 22px;margin-top: 12px;}
         p:last-child{
           font-size: 12px;
           margin-top: 10px;

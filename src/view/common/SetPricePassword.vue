@@ -20,6 +20,7 @@
 import { XInput, Group, XButton, Cell,Toast } from 'vux'
 import api from '../../until/help/api'
 import factory from '../../until/factory/index'
+import { mapState, mapMutations } from "vuex"; 
 export default {
   name: 'Zhuce',
   components: {
@@ -46,20 +47,21 @@ export default {
 
 	},
   methods: {
-
+	  ...mapMutations(["setUser"]),
 	  async login(){
 			// this.$router.push({name:'Home'})
 			try {
 				let regist = await api.register(this.query)
 				if(regist.data.code==200){
-					let res = await api.register(this.query)
-					if(res.data.code==200){
-						factory.Storage.set('userInfo',res.data.result)
-						
-					}else{
-						this.err_txt=res.data.message;
-						this.show_err = true;
-					}
+					// let res = await api.register(this.query)
+					// if(res.data.code==200){
+						factory.Storage.set('userInfo',regist.data.result)
+						this.setUser(res.data.result)
+						this.$router.push({name:'Home'})
+					// }else{
+					// 	this.err_txt=res.data.message;
+					// 	this.show_err = true;
+					// }
 					
 				}else{
 					this.err_txt=res.data.message;

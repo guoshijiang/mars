@@ -38,6 +38,7 @@
 import api from '../../until/help/api'
 import factory from '../../until/factory/index'
 import { XInput, XButton,Group,Toast } from 'vux'
+import { mapState, mapMutations } from "vuex"; 
 export default {
   name: 'Login',
   data () {
@@ -69,31 +70,34 @@ export default {
     topBar:()=>import('@/components/topbar')
   },
   methods: {
+	  ...mapMutations(["setUser"]),
     tabChange(item){
       this.login_type = item.type;
       this.login_btn = item.btn;
     },
     async goLogin(){
-      if(!/^(1\d{10})$/.test(this.query.phone)){
-         this.error ='手机号不对'
-         this.show_err = true
-         return false;
-      }
-      if(!this.query.code){
-        this.error ='验证码错误'
-         this.show_err = true
-         return false;
-      }
-      api.APIPOSTMAN('POST','/user/loginByPhone',this.query).then(res=>{
-		  console.log(res.data.message)
-			if(res.data.code==200){
-				factory.Storage.set('userInfo',res.data.result)
-				this.$router.push({name:'Home'})
-			}else{
-				this.error = res.data.message;
-				this.show_err = true;
-			}
-		})
+		
+		if(!/^(1\d{10})$/.test(this.query.phone)){
+			this.error ='手机号格式不对'
+			this.show_err = true
+			return false;
+		}
+		if(!this.query.code){
+			this.error ='请填写验证码'
+			this.show_err = true
+			return false;
+		}
+		api.APIPOSTMAN('POST','/user/loginByPhone',this.query).then(res=>{
+			console.log(res.data.message)
+				if(res.data.code==200){
+					factory.Storage.set('userInfo',res.data.result)
+					this.setUser(res.data.result)
+					this.$router.push({name:'Home'})
+				}else{
+					this.error = res.data.message;
+					this.show_err = true;
+				}
+			})
       	
       
 	},
@@ -112,16 +116,15 @@ export default {
 			this.time_Interval = setInterval(() => {
 			this.time +=1;
 			if(this.time>60){
-						clearInterval(this.time_Interval);
-						this.time_Interval = null;
-						this.time = 0;
-					}
-				}, 1000);
-				api.APIPOSTMAN('POST','/user/sendLoginCode',this.query).then(res=>{
-					if(res.data.code==200){
-					}else{
-						this.error=res.data.message;
-						this.show_err = true;
+					clearInterval(this.time_Interval);
+					this.time_Interval = null;
+					this.time = 0;
+				}
+			}, 1000);
+			api.APIPOSTMAN('POST','/user/sendLoginCode',{"phone":this.query.phone}).then(res=>{
+				if(res.data.code!=200){
+					this.error=res.data.message;
+					this.show_err = true;
 				}
 			})
 		} catch (error) {

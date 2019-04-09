@@ -20,7 +20,8 @@ class factory {
     static storage(ENV){
         function Storage(storage) {
             this.get = function(name,data) {
-                return JSON.parse(window[storage][name]) || {}
+                // if(window[storage][name])
+                return JSON.parse(window[storage][name] || '{}' ) 
             };
             this.set = function (name,data) {
                 if(window[storage]){
@@ -28,11 +29,11 @@ class factory {
                     return true;
                 }else return false;
             };
-            this.romeve = function(){
-                window[storge].removeItem(name);
+            this.romeve = function(name){
+                window[storage].removeItem(name);
             };
             this.clear = function(){
-                window[storge].clear();
+                window[storage].clear();
             }
         }
         if(window[ENV.storage]){
