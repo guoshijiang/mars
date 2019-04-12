@@ -4,7 +4,7 @@
         <nav-header title='设置资金密码'  back='true'></nav-header>
 		<div class='content set_change'>
 			<div class='hb-register gap'>
-					<group class='register-input'>
+			<group class='register-input'>
 				<x-input  v-model = "query.assetPwd"  placeholder="请设置资金密码" :min="6" ></x-input>
 			</group>
 					</div>

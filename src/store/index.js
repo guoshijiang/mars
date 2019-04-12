@@ -22,6 +22,12 @@ let state = {
         status: 1,
         token: "",
         userUuid: "",
+    },
+    //火币的价格
+    totalPrice:{
+        BTC:'*',
+        price:'*',
+        btc_price:'*'
     }
    
 }
@@ -41,6 +47,18 @@ let mutations = {
         }else{
             for (const key in state.userInfo) {
                 state.userInfo[key] = '';
+            }
+        }
+        
+    },
+
+    // 设置用户信息的数据
+    setTotalPrice(state,payload){
+        if(payload){
+            for (const key in payload) {
+                if (payload.hasOwnProperty(key)) {
+                    state.totalPrice[key] = payload[key];
+                }
             }
         }
         

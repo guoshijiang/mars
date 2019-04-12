@@ -11,56 +11,55 @@
 import { XHeader, Actionsheet, TransferDom, ButtonTab, ButtonTabItem } from 'vux'
 
 export default {
-  directives: {
-    TransferDom
-  },
-  components: {
-    XHeader,
-    Actionsheet,
-    ButtonTab,
-    ButtonTabItem
-  },
-  props:{
-    title:{
-      type:String,
-      required:true,
-    },
-    back:{
-      type:String,
-      // required:true,
-    },
-    right:{
-      type:String,
-    },
-    right_link:{
-       type:String,
-       required:false,
-    },
-    query:{
-       type:String,
-       required:false,
-    }
+	directives: {
+		TransferDom
+	},
+	components: {
+		XHeader,
+		Actionsheet,
+		ButtonTab,
+		ButtonTabItem
+	},
+	props:{
+		title:{
+			type:String,
+			// required:true,
+		},
+		back:{
+			type:String,
+		// required:true,
+		},
+		right:{
+			type:String,
+		},
+		right_link:{
+			type:String,
+			required:false,
+		},
+		query:{
+			type:String,
+			required:false,
+		}
     
-  },
-  data () {
-    return {
-      menus: {
-        menu1: 'Take Photo',
-        menu2: 'Choose from photos'
-      },
-      showMenus: false
-    }
-  },
-  created() {
-  },
-  methods:{
-    goNext(){
-      if(this.right_link){
-        if(!this.query) this.$router.push({name:this.right_link})
-        else this.$router.push({name:this.right_link,query:{type:this.query}})
-      }
-    }
-  }
+  	},
+	data () {
+		return {
+			menus: {
+				menu1: 'Take Photo',
+				menu2: 'Choose from photos'
+			},
+			showMenus: false
+		}
+	},
+	created() {},
+	methods:{
+		goNext(){
+			if(this.right_link){
+				if(!this.query) this.$router.push({name:this.right_link})
+				else this.$router.push({name:this.right_link,query:{type:this.query}})
+			}
+		}
+	}
 }
 </script>
 

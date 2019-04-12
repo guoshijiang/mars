@@ -6,7 +6,7 @@
     <div class="content price" style="height:calc(100% - 44px)">
 		<div class='car'>
 			<p class="sum_price">总资产</p>
-			<p class="has_count"><span>0.000000</span><span> BTC ≈ 1030.99 CNY</span></p>
+			<p class="has_count"><span>{{totalPrice.price}}</span><span> BTC ≈ {{totalPrice.BTC}} CNY</span></p>
 			<p class="caozuo clearfix"><span @click="setDb('put')">充币</span><span @click="setDb('pick')">提币</span></p>
 		</div>
 		<div class="safe">
@@ -60,7 +60,7 @@
 			</li>
 		</ul>
     </div> 
-
+	<toast v-model="show_err" position='middle' type="text" :text="error"></toast>
     <!-- 底部 -->
     <tab class="tab_footer" :active='1'></tab>   
   </div>
@@ -68,7 +68,8 @@
 
 <script>
 import { TransferDom, Actionsheet, Group, XSwitch, Toast } from 'vux'
-
+import { mapState,mapMutations } from "vuex";
+import api from '../until/help/api'
 export default {
   components: {
     Actionsheet,
@@ -78,12 +79,20 @@ export default {
     tab:()=>import('@/components/tab'),
     navHeader:()=>import('@/components/navHeader')
   },
+  computed: {
+	  ...mapState(["userInfo","totalPrice"])
+  },
   directives: {
     TransferDom
   },
   data () {
     return {
+		error:'',
+	   	show_err:false,
     }
+  },
+  mounted() {
+	  this.getPriceDetail()
   },
   methods: {
 	setDb(type){
@@ -91,6 +100,16 @@ export default {
 	},
 	goLine(){
 		this.$router.push({name:'Line'})
+	},
+	getPriceDetail(){
+		api.APIPOSTMAN('POST','/market/findAllMarket').then(res=>{
+			console.log(res.data.message)
+				if(res.data.code==200){
+				}else{
+					this.error = res.data.message;
+					this.show_err = true;
+				}
+			})
 	}
   }
 }

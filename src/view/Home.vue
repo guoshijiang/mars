@@ -6,7 +6,7 @@
  	<div class="content home" style="height:calc(100% - 44px)">
 		<div class='car'>
 			<p class="sum_price">总资产</p>
-			<p class="has_count"><span>0.0000</span><span> USDT≈ 1000 CNY</span></p>
+			<p class="has_count"><span>{{totalPrice.price}}</span><span> USDT≈ {{totalPrice.BTC}} CNY</span></p>
 			<p class="price_name"><span>资产折合 USDT</span>
 				<!-- <span> BTC = 0 CNY</span> -->
 			</p>
@@ -25,50 +25,25 @@
 			</div>
 		</div>
 	
-		<ul class="data_box" style='height:calc(100% - 303px)'>
-			<div @click="goDetail()"> 
-				<p class="clearfix li-title"><span class="float_left">BTC</span>	<span class="float_right">></span></p>
-				<li>
-					<div class='flex'><p>可用</p><p>1000</p></div>
-					<div class='flex'><p >冻结</p><p>12834.5</p></div>
-					<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">≈12834.5</p></div>
-				</li>
-			</div>
-			<div>
-				<p class="clearfix li-title"><span class="float_left">BTC</span>	<span class="float_right">></span></p>
-				<li>
-					<div class='flex'><p>可用</p><p> 1000</p></div>
-					<div class='flex'><p >冻结</p><p>12834.5</p></div>
-					<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">≈12834.5</p></div>
-				</li>
-			</div>
-			<div>
-				<p class="clearfix li-title"><span class="float_left">BTC</span>	<span class="float_right">></span></p>
-				<li>
-					<div class='flex'><p>可用</p><p> 1000</p></div>
-					<div class='flex'><p >冻结</p><p>12834.5</p></div>
-					<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">≈12834.5</p></div>
-				</li>
-			</div>
-			<div>
-				<p class="clearfix li-title"><span class="float_left">BTC</span>	<span class="float_right">></span></p>
-				<li>
-					<div class='flex'><p>可用</p><p> 1000</p></div>
-					<div class='flex'><p >冻结</p><p>12834.5</p></div>
-					<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">≈12834.5</p></div>
-				</li>
-			</div>
-			<div>
-				<p class="clearfix li-title"><span class="float_left">BTC</span>	<span class="float_right">></span></p>
-				<li>
-					<div class='flex'><p>可用</p><p> 1000</p></div>
-					<div class='flex'><p >冻结</p><p>12834.5</p></div>
-					<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">≈333834.5</p></div>
-				</li>
-			</div>
+		<ul class="data_box" style='height:calc(100% - 303px)' v-if='list.length>0 && isLoad'>
+			
+				<div @click="goDetail(i)" v-for='(i,index) in list ' :key='index' > 
+					<!-- <keep-alive>  -->
+						<p class="clearfix li-title"><span v-if='i.detail' class="float_left">{{i.detail.coinName}}</span>	<span class="float_right">></span></p>
+						<li>
+							<div class='flex'><p>可用</p><p>{{i.usableBalance}}</p></div>
+							<div class='flex'><p >冻结</p><p>{{i.freezeBalance}}</p></div>
+							<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">≈{{i.price}}</p></div>
+						</li>
+					<!-- </keep-alive>	 -->
+				</div>
+			
 		</ul>
+		<div class="loading" v-if='list.length==0 && !isLoad'>
+			加载中...
+		</div>
     </div> 
-
+	<toast v-model="show_err" position='middle' type="text" :text="error"></toast>
     <!-- 底部 -->
     <tab class="tab_footer" :active='0'></tab>
 
@@ -76,14 +51,15 @@
 </template>
 
 <script>
-import { Group, Cell } from 'vux'
+import { Group, Cell,Toast } from 'vux'
 import { Actionsheet } from 'vux'
-
+import api from '../until/help/api'
+import { mapState,mapMutations } from "vuex";
 export default {
   components: {
     Group,
     Cell,
-    Actionsheet,
+    Actionsheet,Toast,
     tab:()=>import('@/components/tab'),
     navHeader:()=>import('@/components/navHeader')
   },
@@ -93,16 +69,82 @@ export default {
       // with hot-reload because the reloaded component
       // preserves its current state and we are modifying
       // its initial state.
-      msg: 'Hello World!',
-      val:'ww'
+      	msg: 'Hello World!',
+	  	val:'ww',
+	  	error:'',
+		show_err:false,
+		list:[],
+		isLoad:false,
     }
   },
+  computed: {
+	  ...mapState(["userInfo","totalPrice"])
+  },
+  created() {
+  },
+  mounted() {
+	  if(this.list.length==0){
+		  this.getPriceDetail()
+	  }
+  },
+  activated() {
+	  if(this.list.length>0){
+		  this.asyncPrice();
+	  }
+  },
+  
   methods: {
-    goDetail(a){
-      this.$router.push({name:'Detail'})
+	  ...mapMutations(['setTotalPrice']),
+    goDetail(i){
+      this.$router.push({name:'Detail',params:{hb:i}})
 	},
 	setDb(type){
 		this.$router.push({name:'Findb',query:{type:type}})
+	},
+	//获取价格详情
+	 async getPriceDetail(){
+		this.isLoad = false;//findAssetByUserAndCoinTypeId {userId :this.userInfo.id,coinTypeId:i.coinTypeId,status:1}
+		let res = await api.APIPOSTMAN('POST','/market/findAllMarket');
+	
+		let hb = await api.APIPOSTMAN('POST','/asset/findAssetByUserId',{userId:this.userInfo.id,status:'1'})
+			if(hb.data.code==200){
+				this.list = hb.data.result.list;
+				this.asyncPrice()
+			}else{
+				this.error = res.data.message;
+				this.show_err = true;
+				this.isLoad = false;
+			}
+	},
+	async asyncPrice(){
+		let res = await api.APIPOSTMAN('POST','/market/findAllMarket');
+		let totalPrice={
+			price: 0,
+			BTC:0,
+			btc_price:0,
+		}	
+		if(res.data.code == 200){
+			this.list.map( (i)=>{
+				let hb_price = res.data.result.filter(item =>{
+					if(item.coinId == i.coinTypeId){
+						return item
+					}
+				})[0];
+				let pr = i.usableBalance * hb_price.sell;
+				i.price = pr.toFixed(2)
+				i.detail = hb_price || {};
+				totalPrice.price +=(i.price-0);
+				if(i.detail.coinName=='BTC'){
+					totalPrice.btc_price = Number(i.price).toFixed(2);
+				}
+			})
+		}else{
+
+		}
+				
+		totalPrice.BTC = (totalPrice.price/totalPrice.btc_price).toFixed(2);
+		this.isLoad = true;
+		this.setTotalPrice(totalPrice)
 	}
   },
 }
@@ -112,6 +154,12 @@ export default {
 	.home{
 		padding: 13px 15px;
 		overflow: hidden;
+		.loading{
+			text-align: center;
+			height: 200px;
+			line-height: 200px;
+			color:#909090;
+		}
 		.car{
 			height: 155px;
 			border-radius: 4px;

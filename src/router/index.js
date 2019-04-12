@@ -12,7 +12,10 @@ export default new Router({
     {
       path: '/home',
       name:'Home',
-      component:() => import('@/view/Home')
+      component:() => import('@/view/Home'),
+      meta:{
+        keepAlive:true,
+      }
     },
     {
       path:'/detail',

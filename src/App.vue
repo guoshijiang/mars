@@ -3,7 +3,12 @@
     <!-- 顶部 -->
     <!-- <nav-header class="header"></nav-header> -->
     <!-- 视口 -->
-    <router-view/>
+    <keep-alive>
+		<!-- 需要被缓存的 -->
+      	<router-view v-if='$route.meta.keepAlive'/>
+    </keep-alive>
+	<router-view v-if='!$route.meta.keepAlive'/>
+    
     <!-- 底部 -->
     <!-- <tab class="tab_footer"></tab> -->
     
@@ -101,7 +106,7 @@ html,body {
 }
 //选币模态框样式
 .vux-popup-dialog .popup-content{
-  height: 300px;
+  height: 150px;
   padding: 15px;
   .flex-box{
         margin-top: 20px;

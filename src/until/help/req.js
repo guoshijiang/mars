@@ -60,7 +60,7 @@ class Req{
 	//axios的post请求
 	static POST(url, data){
 		// let param = data ? JSON.stringify(data):'';
-		console.log('请求',data)
+		// console.log('请求',data)
 		// if()
 		return axios.post(ENV.hb_host+url,data)
 	}

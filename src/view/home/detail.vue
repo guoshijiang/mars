@@ -7,11 +7,11 @@
 		
         <ul class="data_box" >
 			<div> 
-				<p class=" li-title"><span>BTC</span></p>
+				<p class=" li-title"><span v-if='hb.detail'>{{hb.detail.coinName}}</span></p>
 				<li>
-					<div class='flex'><p>可用</p><p>24h量 1000</p></div>
-					<div class='flex'><p >冻结</p><p>12834.5</p></div>
-					<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">≈12834.5</p></div>
+					<div class='flex'><p>可用</p><p>{{hb.usableBalance}}</p></div>
+					<div class='flex'><p >冻结</p><p>{{hb.freezeBalance}}</p></div>
+					<div class='flex'><p>折合(CNY)</p><p class="hb_p_num">≈{{hb.price}}</p></div>
 				</li>
 			</div>
 		</ul>
@@ -49,7 +49,8 @@
 
 <script>
 import { Actionsheet, Group, XSwitch, Toast } from 'vux'
-
+import api from '../../until/help/api'
+import { mapState,mapMutations } from "vuex";
 export default {
   components: {
     Group,
@@ -69,11 +70,23 @@ export default {
 			menu3:'交易'
 		},
 		show:false,
+		hb:{}
     }
+  },
+  computed: {
+	  ...mapState(["userInfo","totalPrice"])
+  },
+  mounted() {
+	  this.init()
   },
   methods: {
 	  getSelect(data){
 		  console.log('点击了',data)
+	  },
+	  async init(){
+		//   let res = await api.APIPOSTMAN('POST','/asset/findAssetByUserAndCoinTypeId',{userId :this.userInfo.id,coinTypeId:this.$route.params.type,status:1})
+		  console.log(this.$route.params.hb)
+		  this.hb = Object.assign({},this.$route.params.hb)
 	  }
   }
 }
@@ -180,7 +193,10 @@ export default {
 				font-size:12px;
 				span{
 					flex: 1;text-align: left;color:#666666;
-					
+				}
+				span:last-child{
+					flex:1.5;
+					text-align: center;
 				}
 
 			}
@@ -209,6 +225,7 @@ export default {
 				}
 				span:last-child{
 					margin-right: 0;
+					flex: 1.5
 				}
 			}
 			//无数据展示
