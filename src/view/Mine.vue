@@ -7,7 +7,7 @@
       <div class="top-car">
           <ul class="clearfix">
             <li class="bg_img" @click="show=true"></li>
-            <li><p>{{this.userInfo.name || '未登录'}}</p><p>ID:{{this.userInfo.id || '未知'}}</p></li>
+            <li><p>{{this.userInfo.phone || '未登录'}}</p><p>ID:{{this.userInfo.id || '未知'}}</p></li>
           </ul>
           <div class="bottom-bg">
           </div>

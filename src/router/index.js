@@ -1,13 +1,19 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
+// import factory from '../until/factory/index'
 Vue.use(Router)
 
 export default new Router({
+  mode:"history",
   routes: [
     {
       path:'/',
-      redirect:{name:"Home"}
+      redirect:{name:"Login"}
+      // beforeEnter:(to,from,next)=>{
+      //   if(factory.Storage.set('userInfo').userId){
+      //     next('/home')
+      //   }else next('/login')
+      // }
     },
     {
       path: '/home',

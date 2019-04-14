@@ -6,8 +6,8 @@
  	<div class="content home" style="height:calc(100% - 44px)">
 		<div class='car'>
 			<p class="sum_price">总资产</p>
-			<p class="has_count"><span>{{totalPrice.price}}</span><span> USDT≈ {{totalPrice.BTC}} CNY</span></p>
-			<p class="price_name"><span>资产折合 USDT</span>
+			<p class="has_count"><span>{{totalPrice.BTC}}</span><span> BTC ≈ {{totalPrice.price}}  CNY</span></p>
+			<p class="price_name"><span>资产折合 BTC</span>
 				<!-- <span> BTC = 0 CNY</span> -->
 			</p>
 			<p class="caozuo clearfix"><span @click="setDb('put')">充币</span><span @click="setDb('pick')">提币</span></p>
@@ -41,6 +41,9 @@
 		</ul>
 		<div class="loading" v-if='list.length==0 && !isLoad'>
 			加载中...
+		</div>
+		<div class="loading" v-if='list.length==0 && isLoad'>
+			当前空空，去添加币吧！
 		</div>
     </div> 
 	<toast v-model="show_err" position='middle' type="text" :text="error"></toast>
@@ -90,7 +93,7 @@ export default {
   activated() {
 	  if(this.list.length>0){
 		  this.asyncPrice();
-	  }
+	  }else this.getPriceDetail()
   },
   
   methods: {
@@ -99,11 +102,22 @@ export default {
       this.$router.push({name:'Detail',params:{hb:i}})
 	},
 	setDb(type){
-		this.$router.push({name:'Findb',query:{type:type}})
+		if(this.userInfo.id){
+			this.$router.push({name:'Findb',query:{type:type}})
+		}else{
+			this.$router.push({name:'Login'})
+		}
+		
 	},
 	//获取价格详情
 	 async getPriceDetail(){
+
 		this.isLoad = false;//findAssetByUserAndCoinTypeId {userId :this.userInfo.id,coinTypeId:i.coinTypeId,status:1}
+		
+		if(!this.userInfo.id){
+			this.isLoad = true;
+			return false;
+		}
 		let res = await api.APIPOSTMAN('POST','/market/findAllMarket');
 	
 		let hb = await api.APIPOSTMAN('POST','/asset/findAssetByUserId',{userId:this.userInfo.id,status:'1'})
@@ -131,19 +145,18 @@ export default {
 					}
 				})[0];
 				let pr = i.usableBalance * hb_price.sell;
-				i.price = pr.toFixed(2)
+				i.price = parseInt(pr *100) / 100;
 				i.detail = hb_price || {};
 				totalPrice.price +=(i.price-0);
 				if(i.detail.coinName=='BTC'){
-					totalPrice.btc_price = Number(i.price).toFixed(2);
+					totalPrice.btc_price = Number(hb_price.sell);
 				}
 			})
-		}else{
-
 		}
 				
-		totalPrice.BTC = (totalPrice.price/totalPrice.btc_price).toFixed(2);
+		totalPrice.BTC = parseInt((totalPrice.price / totalPrice.btc_price) * 100000000) /100000000 ;
 		this.isLoad = true;
+		console.log(totalPrice,this.list)
 		this.setTotalPrice(totalPrice)
 	}
   },
@@ -169,14 +182,14 @@ export default {
 			color:#fff;
 			margin-bottom: 20px;
 			.sum_price{
-				font-size: 14px;
-				line-height: 14px;
+				font-size: 16px;
+				line-height: 16px;
 				font-weight: 300;
 				color:#33C7FA;
 			}
 			.has_count{
-				font-size: 24px;
-				line-height: 24px;
+				font-size: 16px;
+				line-height: 16px;
 				margin-top: 14px;
 				span{
 					display: inline-block;
@@ -185,8 +198,8 @@ export default {
 					}
 					&:last-child{
 						width: 60%;
-						font-size: 18px;
-						line-height: 18px;
+						font-size: 16px;
+						line-height: 16px;
 					}
 				}
 			}

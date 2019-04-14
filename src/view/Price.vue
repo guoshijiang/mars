@@ -6,7 +6,7 @@
     <div class="content price" style="height:calc(100% - 44px)">
 		<div class='car'>
 			<p class="sum_price">总资产</p>
-			<p class="has_count"><span>{{totalPrice.price}}</span><span> BTC ≈ {{totalPrice.BTC}} CNY</span></p>
+			<p class="has_count"><span>{{totalPrice.BTC}}</span><span> BTC ≈ {{totalPrice.price}} CNY</span></p>
 			<p class="caozuo clearfix"><span @click="setDb('put')">充币</span><span @click="setDb('pick')">提币</span></p>
 		</div>
 		<div class="safe">
@@ -96,7 +96,12 @@ export default {
   },
   methods: {
 	setDb(type){
-		this.$router.push({name:'Findb',query:{type:type}})
+		// this.$router.push({name:'Findb',query:{type:type}})
+		if(this.userInfo.id){
+			this.$router.push({name:'Findb',query:{type:type}})
+		}else{
+			this.$router.push({name:'Login'})
+		}
 	},
 	goLine(){
 		this.$router.push({name:'Line'})
@@ -133,12 +138,13 @@ export default {
 				color:#33C7FA;
 			}
 			.has_count{
-				font-size: 24px;
-				line-height: 24px;
+				font-size: 16px;
+				line-height: 16px;
 				margin-top: 10px;
 				span:last-child{
-					font-size: 20px;
-					line-height: 20px;
+					font-size: 16px;
+					line-height: 16px;
+					margin-left: 20px;
 				}
 			}
 			.caozuo{

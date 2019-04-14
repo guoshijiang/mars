@@ -31,17 +31,19 @@
             <div class="msg">
                 <group title="提币地址">
                     <x-input type='text' placeholder='区块链地址'   v-model="reslove.depositAddress">
+                        <img slot="right-full-height" v-if='this.copy.depositAddress' @click="copyAddress()" src="./../../assets/img/saoma.png">
+
                         <img slot="right-full-height" src="./../../assets/img/saoma.png">
                     </x-input>
                 </group>
                 <x-input title="地址备注" placeholder='填写备注' v-model='reslove.depositTag' class="weui-vcode"></x-input>
-                <x-input title="提币数量" type='number' v-model='reslove.depositCoinNum' placeholder='最低提币0.01个' class="weui-vcode"></x-input>
+                <x-input title="提币数量" type='number' @on-change='changeNum()' v-model='reslove.depositCoinNum' placeholder='最低提币0.01个' class="weui-vcode"></x-input>
             </div>
 
             <div class="msg num_msg">
                 <!-- <x-input title="网络手续费" placeholder='0.22' class="weui-vcode"></x-input> -->
-                <x-input title="提币手续费" disabled=true class="weui-vcode" v-model="reslove.depositFee"></x-input>
-                <x-input title="到账数量" placeholder='0.34' class="weui-vcode"></x-input>
+                <x-input title="提币手续费" disabled class="weui-vcode" v-model="reslove.depositFee"></x-input>
+                <x-input title="到账数量"  v-model='daozhangnum' class="weui-vcode"></x-input>
             </div>
             <div class="box btns" v-if='this.select_db !="请选择"'>
                 <x-button  type="primary" @click.native='confirm()'>{{query.btn}}</x-button>
@@ -76,6 +78,7 @@
 import { Actionsheet,Cell,Flexbox,FlexboxItem, Group, Toast,XButton,XInput,TransferDom ,Popup,Qrcode} from 'vux'
 import api from '../../until/help/api'
 import { mapState,mapMutations } from "vuex";
+import factory from '../../until/factory/index'
 export default {
     directives: {
         TransferDom
@@ -105,21 +108,37 @@ export default {
                 coinTypeId:'',
                 depositAddress:'',
                 depositCoinNum:'',
-                depositStatus:0,
+                depositStatus:1,
                 depositTag:'',
-                status:0,
+                status:1,
                 userId:'',
                 coinName:''
             },
+            daozhangnum:0,
             db_list:[],
             address:'',
+            copy:{},
         }
     },
+    // watch: {
+    //     'reslove.depositCoinNum'(val){
+    //         if(val){
+    //             alert('22')
+    //         }
+    //     }
+    // },
     mounted() {
         this.select_db = '请选择';
         this.address = '';
         this.query = Object.assign({},this.model[this.$route.query.type])
         this.findBD()
+        if(this.$route.query.type=='pick'){
+            let data = factory.Storage.get('db_addr');
+            console.log(data)
+            if(data){
+                this.copy = Object.assign({},data)
+            }
+        }
     },
   methods: {
         async selectDB(i){
@@ -151,15 +170,15 @@ export default {
         },
         async confirm(){
             if(this.query.type=='put'){
+                factory.Storage.set('db_addr',{coinName:this.select_db,depositAddress:this.address})
                 this.toastText = '复制成功',
                 this.showToast = true;
-                console.log('this.query',this.query)
             }else{
                 try {
                     let err = [];
                     if(!this.reslove.depositAddress) err.push('请填写提币地址')
                     if(!this.reslove.depositCoinNum) err.push('请填写提币数量')
-                    else if(this.reslove.depositCoinNum<0.01) err.push('提币数量不少于0.01个')
+                    else if(this.reslove.depositCoinNum < this.reslove.depositFee) err.push('到账数量必须大于0')
                     
                     if(!this.reslove.depositTag) err.push('请填写提币备注')
                     if(err.length>0){
@@ -169,7 +188,11 @@ export default {
                     }
                     let res = await api.APIPOSTMAN('POST','/deposit/addDeposit',this.reslove)
                     if(res.data.code==200){
-                        this.toastText = '提交成功'
+                        this.toastText = '提币处理中，请等待'
+                        this.showToast = true;
+                        history.back();
+                    }else{
+                        this.toastText = res.data.message;
                         this.showToast = true;
                     }
                 } catch (error) {
@@ -190,9 +213,24 @@ export default {
             } catch (error) {
                 
             }
+        },
+        copyAddress(){
+            console.log('aaa',this.copy)
+            if(this.copy.depositAddress){
+                this.reslove.depositAddress = this.copy.depositAddress;
+                factory.Storage.set('db_addr',{})
+                this.copy = {}
+            }else{
+                this.toastText = '粘贴失败'
+                this.showToast = true;
+            }
+        },
+        changeNum(){
+            if(this.reslove.depositCoinNum){
+                this.daozhangnum =  this.reslove.depositCoinNum - this.reslove.depositFee;
+            }else this.daozhangnum = 0;
         }
-
-  }
+    }
 }
 </script>
 
@@ -209,6 +247,9 @@ export default {
     .vux-x-input-right-full img{
         height: 20px;
         margin-top: 12px;
+        &:first-child{
+            margin-right: 10px;
+        }
     }
     .history_list{
          background-color: #fff;

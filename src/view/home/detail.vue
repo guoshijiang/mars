@@ -19,17 +19,17 @@
 			<p class="clearfix title"><span class="float_left">财务记录</span><span class="float_right" @click="show=true"></span></p>
 				
 			<div class="box-list">
-				<div class='box-item' v-for='(i,index) in [{},{},{},{}]' :key='index'>
-					<p class='item_p'>普通充币</p>
+				<div class='box-item' v-for='(i,index) in this.list' :key='index'>
+					<p class='item_p'>{{i.transType | transType}}</p>
 					<div class="list_name">
 						<span>类型/数量</span>
 						<span>状态</span>
 						<span>时间</span>
 					</div>
 					<div class="item">
-						<span>0.342234</span>
-						<span>已完成</span>
-						<span>2018/09/12 23:22</span>
+						<span>{{i.coinNumber}}</span>
+						<span>{{i.transStatus | transStatus}}</span>
+						<span>{{i.modifyTime}}</span>
 					</div>
 				</div>
 				
@@ -70,7 +70,9 @@ export default {
 			menu3:'交易'
 		},
 		show:false,
-		hb:{}
+		hb:{},
+		list:[],
+		page:1,
     }
   },
   computed: {
@@ -80,14 +82,31 @@ export default {
 	  this.init()
   },
   methods: {
-	  getSelect(data){
-		  console.log('点击了',data)
-	  },
-	  async init(){
-		//   let res = await api.APIPOSTMAN('POST','/asset/findAssetByUserAndCoinTypeId',{userId :this.userInfo.id,coinTypeId:this.$route.params.type,status:1})
-		  console.log(this.$route.params.hb)
-		  this.hb = Object.assign({},this.$route.params.hb)
-	  }
+		getSelect(data){
+			console.log('点击了',data)
+		},
+		init(){
+			//   
+			console.log(this.$route.params.hb)
+			this.hb = Object.assign({},this.$route.params.hb)
+			this.getHistoryList(1)
+		},
+		async getHistoryList(page){
+			if(page==1){
+				this.list = []
+			}
+			try {
+				let res = await api.APIPOSTMAN('POST','/transRecord/findTransRecordByConditon',{userId :this.userInfo.id,coinTypeId:this.hb.coinTypeId,status:1})
+				if(res.data.code==200){
+					this.list = res.data.result.list;
+				}else{
+
+				}
+			} catch (error) {
+				console.log(error)
+			}
+		}
+
   }
 }
 </script>
@@ -195,7 +214,7 @@ export default {
 					flex: 1;text-align: left;color:#666666;
 				}
 				span:last-child{
-					flex:1.5;
+					flex:1.3;
 					text-align: center;
 				}
 
@@ -225,7 +244,8 @@ export default {
 				}
 				span:last-child{
 					margin-right: 0;
-					flex: 1.5
+					flex: 1.3;
+					text-align: center;
 				}
 			}
 			//无数据展示

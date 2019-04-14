@@ -21,11 +21,10 @@
 			<!-- 无数据展示 -->
 		
 		</div>
-			<div class="no-data">
-				<div class="bg"></div>
-				<p>暂无记录</p>
-			</div>
-
+		<div class="no-data">
+			<div class="bg"></div>
+			<p>暂无记录</p>
+		</div>
     </div>    
   </div>
 </template>
@@ -103,7 +102,10 @@ export default {
                 font-size:12px;
 					span{
 						flex: 1;text-align: left;color:#666666;
-
+					}
+					span:last-child{
+						margin-right: 0;
+						flex:1.5
 					}
 
 				}
@@ -125,6 +127,7 @@ export default {
 					}
 					span:last-child{
 						margin-right: 0;
+						flex:1.5
 					}
 			}
 			

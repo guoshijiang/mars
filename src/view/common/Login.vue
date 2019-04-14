@@ -11,8 +11,8 @@
           <div class='hb-input' v-if="login_type =='phone'">
             <li><span>+86</span> <input type="tel" v-model='query.phone' maxlength="11" style="width:calce(100% - 77px)" placeholder="输入您的手机号"></li>
 			
-			<li><x-input  v-model = "query.code" type="number" placeholder="请填写6位数验证码" ><x-button slot="right" mini @click.native="getCode()">{{time? time+'s重新获取':'发送验证码'}}</x-button></x-input></li>
-            <li class="li-input"><input type="password" maxlength="6" v-model='query.loginPwd' placeholder="请输入您的密码"></li>
+			<li><x-input  v-model = "query.code" type="number" placeholder="请填写6位数验证码" ><x-button slot="right" mini @click.native="getCode()">{{time!=60 ? time+'s重新获取':'发送验证码'}}</x-button></x-input></li>
+            <li class="li-input"><input type="password" minlength="6" v-model='query.loginPwd' placeholder="请输入您的密码"></li>
           </div>
           <!-- <div class='hb-input' v-if="login_type =='emal'">
             <li><input type='email'  style="width:100%" placeholder="请输入您的邮箱"></li>
@@ -41,28 +41,28 @@ import { XInput, XButton,Group,Toast } from 'vux'
 import { mapState, mapMutations } from "vuex"; 
 export default {
   name: 'Login',
-  data () {
-    return {
-      query:{
-        phone:"",
-		code:'',
-		loginPwd:''
-      },
-      login_list:[
-        {type:'phone',btn:'登陆交易所',txt:'手机号'},
-        // {type:'emal',btn:'登陆交易所',txt:'邮箱'},
-        {type:'tel',btn:'手机号一键登录',txt:'手机号快捷'},
-        
-      ],
-      login_type:'phone',
-	  login_btn:'登陆交易所',
-	  
-       error:'',
-	   show_err:false,
-	    time_Interval:null,
-		time:0,
-    }
-  },
+	data () {
+		return {
+		query:{
+			phone:"",
+			code:'',
+			loginPwd:''
+		},
+		login_list:[
+			{type:'phone',btn:'登陆交易所',txt:'手机号'},
+			// {type:'emal',btn:'登陆交易所',txt:'邮箱'},
+			{type:'tel',btn:'手机号一键登录',txt:'手机号快捷'},
+			
+		],
+		login_type:'phone',
+		login_btn:'登陆交易所',
+		
+		error:'',
+		show_err:false,
+			time_Interval:null,
+			time:60,
+		}
+	},
   components: {
     XInput,
     XButton,
@@ -70,25 +70,24 @@ export default {
     topBar:()=>import('@/components/topbar')
   },
   methods: {
-	  ...mapMutations(["setUser"]),
-    tabChange(item){
-      this.login_type = item.type;
-      this.login_btn = item.btn;
-    },
-    async goLogin(){
+	  	...mapMutations(["setUser"]),
+		tabChange(item){
+			this.login_type = item.type;
+			this.login_btn = item.btn;
+		},
+    	async goLogin(){
 		
-		if(!/^(1\d{10})$/.test(this.query.phone)){
-			this.error ='手机号格式不对'
-			this.show_err = true
-			return false;
-		}
-		if(!this.query.code){
-			this.error ='请填写验证码'
-			this.show_err = true
-			return false;
-		}
-		api.APIPOSTMAN('POST','/user/loginByPhone',this.query).then(res=>{
-			console.log(res.data.message)
+			if(!/^(1\d{10})$/.test(this.query.phone)){
+				this.error ='手机号格式不对'
+				this.show_err = true
+				return false;
+			}
+			if(!this.query.code){
+				this.error ='请填写验证码'
+				this.show_err = true
+				return false;
+			}
+			api.APIPOSTMAN('POST','/user/loginByPhone',this.query).then(res=>{
 				if(res.data.code==200){
 					factory.Storage.set('userInfo',res.data.result)
 					this.setUser(res.data.result)
@@ -98,8 +97,6 @@ export default {
 					this.show_err = true;
 				}
 			})
-      	
-      
 	},
 	getCode(){
 		if(!this.query.phone){
@@ -107,18 +104,18 @@ export default {
 			this.show_err = true;
 			return false;
 		}
-		if(this.time>0){
+		if(this.time<60){
 			return false;
 		}
 		this.time_Interval = null;
-		this.time +=1
+		this.time -=1
 		try {
 			this.time_Interval = setInterval(() => {
-			this.time +=1;
-			if(this.time>60){
+			this.time -=1;
+			if(this.time== -1){
 					clearInterval(this.time_Interval);
 					this.time_Interval = null;
-					this.time = 0;
+					this.time = 60;
 				}
 			}, 1000);
 			api.APIPOSTMAN('POST','/user/sendLoginCode',{"phone":this.query.phone}).then(res=>{

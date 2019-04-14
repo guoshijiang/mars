@@ -56,7 +56,7 @@ export default {
 					// let res = await api.register(this.query)
 					// if(res.data.code==200){
 						factory.Storage.set('userInfo',regist.data.result)
-						this.setUser(res.data.result)
+						this.setUser(regist.data.result)
 						this.$router.push({name:'Home'})
 					// }else{
 					// 	this.err_txt=res.data.message;
@@ -64,7 +64,7 @@ export default {
 					// }
 					
 				}else{
-					this.err_txt=res.data.message;
+					this.err_txt=regist.data.message;
 					this.show_err = true;
 				}
 			} catch (error) {

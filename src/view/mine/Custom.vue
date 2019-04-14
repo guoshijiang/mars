@@ -1,77 +1,163 @@
 <template>
-  <div class="pre">
-       <!-- 顶部 -->
-      <nav-header title='修改手机号' back='true'></nav-header> 
-      <div class='content custom' style="height:calc(100% - 44px)">
-       <div>
-            <group title="旧手机号">
-            <x-input type='text'   v-model="query.old_phone" disabled></x-input>
-			</group>
-			<group title="验证码">
-				<x-input  v-model = "query.code" :max='11' name="mobile" type='tel' placeholder="请输入验证码" keyboard="number" is-type="china-mobile"><x-button slot="right" mini>发送验证码</x-button></x-input>
-			</group>
-		</div>
-		<div class='gap-box'></div>
+	<div class="pre">
+		<!-- 顶部 -->
+		<nav-header title='修改手机号' back='true'></nav-header> 
+		<div class='content custom' style="height:calc(100% - 44px)">
 		<div>
-			<group title="国家">
-				<x-input type='text'  v-model="query.guo"></x-input>
-			</group>
-			<group title="新手机号">
-			<x-input type='tel' placeholder="请输入新的手机号码" :max='11'   v-model="query.new_phone"></x-input>
+			<group title="旧手机号">
+				<x-input type='text'   v-model="query.old_phone" disabled></x-input>
 			</group>
 			<group title="验证码">
-				<x-input  v-model = "query.code" :max='11' name="mobile" type='tel' placeholder="请输入验证码" keyboard="number" is-type="china-mobile"><x-button slot="right" mini>发送验证码</x-button></x-input>
+				<x-input  v-model = "query.old_code" :max='11' name="mobile" type='tel' placeholder="请输入验证码" keyboard="number" is-type="china-mobile"><x-button slot="right" mini @click.native='getCode("old_time")'>{{old_time!=60 ? old_time+'s重新获取':'发送验证码'}}</x-button></x-input>
 			</group>
-		</div>
-		<div class="box btns gap_b">
-			<x-button  type="primary" @click.native='confrm()'>提交</x-button>
-		</div>
+			</div>
+			<div class='gap-box'></div>
+			<div>
+				<group title="国家">
+					<x-input type='text'  v-model="query.guo"></x-input>
+				</group>
+				<group title="新手机号">
+					<x-input type='tel' placeholder="请输入新的手机号码" :max='11'   v-model="query.new_phone"></x-input>
+				</group>
+				<group title="验证码">
+					<x-input  v-model = "query.new_code" :max='11' name="mobile" type='tel' placeholder="请输入验证码" keyboard="number" is-type="china-mobile"><x-button slot="right" mini @click.native='getCode("new_time")'>{{new_time!=60 ? new_time+'s重新获取':'发送验证码'}}</x-button></x-input>
+				</group>
+			</div>
+			<div class="box btns gap_b">
+				<x-button  type="primary" @click.native='confrm()'>提交</x-button>
+			</div>
 
-    <div v-transfer-dom class="hb_popup_custom">
-               
-			<popup v-model="safe" height="220px" is-transparent>
-					
-				<div class="hb_popup_box">
-					<div class="popup_title" @click="safe = false"><cell title="安全认证" value="关闭" ></cell></div>
-					<group>
-						<group title="绑定手机号为 18736472563">
-							<x-input  v-model = "query.code" :max='11' name="mobile" type='tel' placeholder="请输入验证码" keyboard="number" is-type="china-mobile"><x-button slot="right" mini>发送验证码</x-button></x-input>
+		<div v-transfer-dom class="hb_popup_custom">
+				
+				<popup v-model="safe" height="220px" is-transparent>
+						
+					<div class="hb_popup_box">
+						<div class="popup_title" @click="safe = false"><cell title="安全认证" value="关闭" ></cell></div>
+						<group>
+							<group title="绑定手机号为 18736472563">
+								<x-input  v-model = "query.code" :max='11' name="mobile" type='tel' placeholder="请输入验证码" keyboard="number" is-type="china-mobile"><x-button slot="right" mini>发送验证码</x-button></x-input>
+							</group>
 						</group>
-					</group>
-					<div style="padding:0px 15px;" class="btns">
-						<x-button type="primary">确定</x-button>
+						<div style="padding:0px 15px;" class="btns">
+							<x-button type="primary">确定</x-button>
+						</div>
 					</div>
-				</div>
-			</popup>
-		</div>
+				</popup>
+			</div>
 
-      </div>
-  </div>
+		</div> 
+		<toast v-model="show_err" position='middle' type="text" :text="error"></toast>
+	</div>
 </template>
 
 <script>
-import { Group,XInput,XButton,Cell, Popup,} from 'vux'
+import { Group,XInput,XButton,Cell, Popup,Toast,TransferDom} from 'vux'
 import api from '../../until/help/api'
+import { mapState } from "vuex";
 export default {
-  name: 'help',
-  data () {
-    return {
-      query:{
-        old_phone:13647837622,
-        guo:'中国'
-      },
-      safe:false
-    }
-  },
-  components: {
-    Group,XInput,XButton,Cell, Popup,
-    navHeader:()=>import('@/components/navHeader')
-  },
-  methods: {
-    confrm(){
-      this.safe = true 
-    }
-  },
+	name: 'help',
+	directives: {
+        TransferDom
+    },
+	data () {
+		return {
+			query:{
+				old_phone:'',
+				new_phone:'',
+				guo:'中国',
+				new_code:'',
+				old_code:''
+			},
+			safe:false,
+			old_time:60,
+			new_time:60,
+
+			error:'',
+			show_err:false,
+		}
+
+	},
+	
+	computed: {
+		...mapState(["userInfo"])
+	},
+	mounted() {
+		this.query.old_phone = this.userInfo.phone;
+	},
+	components: {
+		Group,XInput,XButton,Cell, Popup,Toast,
+		navHeader:()=>import('@/components/navHeader')
+	},
+	methods: {
+		confrm(){
+			// this.safe = true 
+			let err = [];
+			if(this.query.new_phone) err.push('请输入新手机号')
+			if(this.query.new_old) err.push('请输入新手机号验证码')
+			if(this.query.old_phone) err.push('请输入旧手机号验证码')
+			if(err.length>0){
+				this.error=err[0];
+				this.show_err = true;
+			}
+			api.APIPOSTMAN('POST','/mine/updateUserNewPhoneById',{"phone":obj.phone}).then(res=>{
+				if(res.data.code!=200){
+					this.error=res.data.message;
+					this.show_err = true;
+				}else {
+					this.error='修改手机号成功';
+					this.show_err = true;
+					history.back()
+				}
+			})
+		},
+		getCode(type){
+			if(type=='old_time'){
+				// if(!this.query.old_phone){
+				// 	this.error='请输入手机号'
+				// 	this.show_err = true;
+				// 	return false;
+				// }
+			}else{
+				if(!this.query.new_phone){
+					this.error='请输入新手机号'
+					this.show_err = true;
+					return false;
+				}
+			}
+			
+			if(this[type]<60){
+				return false;
+			}
+			this[type+'_Interval'] = null;
+			this[type] -=1
+			try {
+				this[type+'_Interval'] = setInterval(() => {
+					this[type] -=1;
+					if(this[type]== -1){
+						clearInterval(this[type + '_Interval']);
+						this[type + '_Interval'] = null;
+						this[type] = 60;
+					}
+				}, 1000);
+				let obj={}
+				if(type=='old_time'){
+					obj.url = '/mine/sendCodeByOldPhone',
+					obj.phone = this.query.old_phone
+				}else{
+					obj.url = '/mine/sendCodeByNewPhone',
+					obj.phone = this.query.new_phone
+				}
+				api.APIPOSTMAN('POST',obj.url,{"phone":obj.phone}).then(res=>{
+					if(res.data.code!=200){
+						this.error=res.data.message;
+						this.show_err = true;
+					}
+				})
+			} catch (error) {
+				console.log(error)
+			}
+		},
+	},
 }
 </script>
 
