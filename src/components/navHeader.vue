@@ -37,7 +37,7 @@ export default {
 			required:false,
 		},
 		query:{
-			type:String,
+			type:Number,
 			required:false,
 		}
     

@@ -1,37 +1,37 @@
 <template>
-  <div class="pre" >
-      <top-bar title='登录'></top-bar> 
-      <div class='content' style="height:calc(100% - 44px)">
-        <div class='hb-login gap'>
-            <ul class="hb-login-tab clearfix">
-              <li :class="{'active':login_type ==i.type}" v-for='(i,index) in login_list' :key='index' @click='tabChange(i)'>{{i.txt}}</li>
-              <!-- <li :class="{'active':login_type =='emal'}" @click='tabChange("emal")'></li>
-              <li :class="{'active':login_type =='tel'}" @click='tabChange("tel")'></li> -->
-            </ul>
-          <div class='hb-input' v-if="login_type =='phone'">
-            <li><span>+86</span> <input type="tel" v-model='query.phone' maxlength="11" style="width:calce(100% - 77px)" placeholder="输入您的手机号"></li>
-			
-			<li><x-input  v-model = "query.code" type="number" placeholder="请填写6位数验证码" ><x-button slot="right" mini @click.native="getCode()">{{time!=60 ? time+'s重新获取':'发送验证码'}}</x-button></x-input></li>
-            <li class="li-input"><input type="password" minlength="6" v-model='query.loginPwd' placeholder="请输入您的密码"></li>
+    <div class="pre" >
+        <top-bar title='登录'></top-bar> 
+        <div class='content' style="height:calc(100% - 44px)">
+          <div class='hb-login gap'>
+              <ul class="hb-login-tab clearfix">
+                <li :class="{'active':login_type ==i.type}" v-for='(i,index) in login_list' :key='index' @click='tabChange(i)'>{{i.txt}}</li>
+                <!-- <li :class="{'active':login_type =='emal'}" @click='tabChange("emal")'></li>
+                <li :class="{'active':login_type =='tel'}" @click='tabChange("tel")'></li> -->
+              </ul>
+            <div class='hb-input' v-if="login_type =='phone'">
+              <li><span>+86</span> <input type="tel" v-model='query.phone' maxlength="11" style="width:calce(100% - 77px)" placeholder="输入您的手机号"></li>
+        
+        <li><x-input  v-model = "query.code" type="number" placeholder="请填写6位数验证码" ><x-button slot="right" mini @click.native="getCode()">{{time!=60 ? time+'s重新获取':'发送验证码'}}</x-button></x-input></li>
+              <li class="li-input"><input type="password" minlength="6" v-model='query.loginPwd' placeholder="请输入您的密码"></li>
+            </div>
+            <!-- <div class='hb-input' v-if="login_type =='emal'">
+              <li><input type='email'  style="width:100%" placeholder="请输入您的邮箱"></li>
+              <li class="li-input"><input type="password" maxlength="6" placeholder="请输入您的密码"></li>
+            </div> -->
+            <div class='hb-input' v-if="login_type =='tel'">
+              <li><span>+86</span> <input type="tel" maxlength="11" style="width:calce(100% - 77px)" placeholder="输入您的手机号"></li>
+        <li class="li-input"><input type="num" maxlength="6" placeholder="请输入您的验证码"></li>
+            </div>
           </div>
-          <!-- <div class='hb-input' v-if="login_type =='emal'">
-            <li><input type='email'  style="width:100%" placeholder="请输入您的邮箱"></li>
-            <li class="li-input"><input type="password" maxlength="6" placeholder="请输入您的密码"></li>
-          </div> -->
-          <div class='hb-input' v-if="login_type =='tel'">
-            <li><span>+86</span> <input type="tel" maxlength="11" style="width:calce(100% - 77px)" placeholder="输入您的手机号"></li>
-			<li class="li-input"><input type="num" maxlength="6" placeholder="请输入您的验证码"></li>
-          </div>
-        </div>
 
-        <div class="box btns">
-          <x-button  type="primary" @click.native='goLogin()'>{{login_btn}}</x-button>
+          <div class="box btns">
+            <x-button  type="primary" @click.native='goLogin()'>{{login_btn}}</x-button>
+          </div>
+          
+            <toast v-model="show_err" position='middle' type="text" :text="error"></toast>
+            <p class="hb-login-text" @click='goZhuce()'>还没有账号，免费注册</p>
         </div>
-         
-          <toast v-model="show_err" position='middle' type="text" :text="error"></toast>
-          <p class="hb-login-text" @click='goZhuce()'>还没有账号，免费注册</p>
-      </div>
-  </div>
+    </div>
 </template>
 
 <script>
@@ -63,13 +63,13 @@ export default {
 			time:60,
 		}
 	},
-  components: {
-    XInput,
-    XButton,
-    Toast,Group,
-    topBar:()=>import('@/components/topbar')
-  },
-  methods: {
+	components: {
+		XInput,
+		XButton,
+		Toast,Group,
+		topBar:()=>import('@/components/topbar')
+	},
+	methods: {
 	  	...mapMutations(["setUser"]),
 		tabChange(item){
 			this.login_type = item.type;

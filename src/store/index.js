@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex' 
 // import modules from './modules'
 import factory from '../until/factory' 
+import api from '../until/help/api'
 // import ZLib from '../utils/tool/zlib';
 // import localStorage from '../utils/localstorage' 
 
@@ -72,6 +73,20 @@ let actions = {
         let user = factory.Storage.get('userInfo')
         if(Object.keys(user).length>0){
             commit('setUser',user)
+        }
+    },
+    //初始化实时交易
+    async initHb({commit,state},payload){
+        let user = factory.Storage.get('userInfo'),appSetInterval=null;
+        try {
+            appSetInterval = setInterval(async() => {
+                let res = await api.APIPOSTMAN('POST','/coincoin/handleTransCoin',{userId:user.id,status:1})
+                // clearInterval(appSetInterval);
+                // appSetInterval = null;
+                console.log('22222111')
+            },1000 * 60 * 2);
+        } catch (error) {
+            console.log(error)
         }
     }
      

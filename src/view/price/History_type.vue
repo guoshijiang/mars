@@ -5,7 +5,7 @@
     <!-- 内容 -->
     <div class="content history_db"  style="height:calc(100% - 44px)">
 		
-		<div class="price_list" v-for="(i,index) in [,,,,,,,,,,,,]" :key='index'>
+		<div class="price_list" v-for="(i,index) in list" :key='index'>
 			<p class="clearfix title"><span class="float_left">{{menus[type] ? menus[type].menu :''}}</span></p>
 			<div class="list_name">
 				<span>数量</span>
@@ -13,15 +13,13 @@
 				<span>时间</span>
 			</div>
 			<div class="item" @click='goDetail()' >
-				<span>0.342234</span>
-				<span>已完成</span>
-				<span>2018/09/12 23:22</span>
+				<span>{{i.coinNumber}}</span>
+				<span>{{i.transStatus | transStatus}}</span>
+				<span>{{i.modifyTime}}</span>
 			</div>
-			
 			<!-- 无数据展示 -->
-		
 		</div>
-		<div class="no-data">
+		<div class="no-data" v-if='list.length==0'>
 			<div class="bg"></div>
 			<p>暂无记录</p>
 		</div>
@@ -31,40 +29,58 @@
 
 <script>
 import { Actionsheet, Group, XSwitch, Toast } from 'vux'
-
+import api from '../../until/help/api'
+import { mapState,mapMutations } from "vuex";
 export default {
-  components: {
-    Group,
-    XSwitch,
-	Toast,
-	Actionsheet,
-    navHeader:()=>import('@/components/navHeader')
-  },
-//   directives: {
-//     TransferDom
-//   },
-  data () {
-    return {
-		menus:{
-			'put':{
-				menu:'普通充币'
+	components: {
+		Group,
+		XSwitch,
+		Toast,
+		Actionsheet,
+		navHeader:()=>import('@/components/navHeader')
+	},
+	data () {
+		return {
+			menus:{
+				'put':{
+					menu:'普通充币'
+				},
+				'pick':{
+					menu:'提币'
+				}
 			},
-			'pick':{
-				menu:'提币'
-			}
-		},
-		show:false,
-		type:''
-    }
-  },
+			show:false,
+			type:'',
+			list:[]
+		}
+	},
 	mounted() {
 		console.log(this.$route)
-		this.type = this.$route.query.type;
+		this.init()
+	},
+	computed: {
+		...mapState(["userInfo","totalPrice"])
 	},
 	methods: {
-	    goDetail(data){
-		  this.$router.push({name:'Db_detail',query:{type:this.$route.query.type}})
-	  }
+		goDetail(data){
+			this.$router.push({name:'Db_detail',query:{type:this.$route.query.type}})
+		},
+		async init(){
+			try {
+				let res = await api.APIPOSTMAN('POST','/transRecord/findTransRecordByConditon',
+				{userId:this.userInfo.id,coinTypeId:this.$route.query.type,status:'1'})
+				if(res.data.code==200){
+					this.list = res.data.result.list;
+					console.log(this.list)
+				}else{
+					this.error = res.data.message;
+					this.show_err = true;
+					this.isLoad = false;
+				}
+			} catch (error) {
+				
+			}
+		}
 	}
 }
 </script>
@@ -105,7 +121,7 @@ export default {
 					}
 					span:last-child{
 						margin-right: 0;
-						flex:1.5
+						flex:1.2
 					}
 
 				}
@@ -127,7 +143,7 @@ export default {
 					}
 					span:last-child{
 						margin-right: 0;
-						flex:1.5
+						flex:1.2
 					}
 			}
 			

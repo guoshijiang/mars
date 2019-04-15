@@ -62,26 +62,26 @@ export default {
 //   directives: {
 //     TransferDom
 //   },
-  data () {
-    return {
-		menus:{
-			menu1:'充币',
-			menu2:'提币',
-			menu3:'交易'
-		},
-		show:false,
-		hb:{},
-		list:[],
-		page:1,
-    }
-  },
-  computed: {
-	  ...mapState(["userInfo","totalPrice"])
-  },
-  mounted() {
-	  this.init()
-  },
-  methods: {
+	data () {
+		return {
+			menus:{
+				menu1:'充币',
+				menu2:'提币',
+				menu3:'交易'
+			},
+			show:false,
+			hb:{},
+			list:[],
+			page:1,
+		}
+	},
+	computed: {
+		...mapState(["userInfo","totalPrice"])
+	},
+	mounted() {
+		this.init()
+	},
+  	methods: {
 		getSelect(data){
 			console.log('点击了',data)
 		},
@@ -99,8 +99,6 @@ export default {
 				let res = await api.APIPOSTMAN('POST','/transRecord/findTransRecordByConditon',{userId :this.userInfo.id,coinTypeId:this.hb.coinTypeId,status:1})
 				if(res.data.code==200){
 					this.list = res.data.result.list;
-				}else{
-
 				}
 			} catch (error) {
 				console.log(error)

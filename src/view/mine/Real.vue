@@ -35,7 +35,9 @@ export default {
 				cardType:'身份证',
 				realName:'',
 				nation:'中国',
-				cardNumber:''
+				cardNumber:'',
+				cardImgUrlUpright:'未上传',
+				cardImgUrlReverse:'未上传'
 			},
 			isReal:false,
 			error:'',
@@ -80,15 +82,13 @@ export default {
 				this.show_err = true;
 				return false;
 			}
-
 			try {
 				let res = await api.APIPOSTMAN('POST','/mine/saveUserAuthInfo',{userId :this.userInfo.id,...this.query})
 				if(res.data.code == 200){
-					console.log(res)
 					if(res.data.result){
-						this.query = Object.assign({},res.data.result)
-						this.isReal = true
-					}else this.isReal = false;
+						this.error = '提交成功';
+						this.show_err = true;
+					}
 				}else{
 					this.error = res.data.message;
 					this.show_err = true;

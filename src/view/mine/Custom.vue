@@ -53,7 +53,8 @@
 <script>
 import { Group,XInput,XButton,Cell, Popup,Toast,TransferDom} from 'vux'
 import api from '../../until/help/api'
-import { mapState } from "vuex";
+import factory from '../../until/factory/index'
+import { mapState ,mapMutations} from "vuex";
 export default {
 	name: 'help',
 	directives: {
@@ -89,6 +90,7 @@ export default {
 		navHeader:()=>import('@/components/navHeader')
 	},
 	methods: {
+		...mapMutations(["setUser"]),
 		confrm(){
 			// this.safe = true 
 			let err = [];
@@ -99,13 +101,17 @@ export default {
 				this.error=err[0];
 				this.show_err = true;
 			}
-			api.APIPOSTMAN('POST','/mine/updateUserNewPhoneById',{"phone":obj.phone}).then(res=>{
+			api.APIPOSTMAN('POST','/mine/updateUserNewPhoneById',{"phone":this.query.new_phone,id:this.userInfo.id}).then(res=>{
 				if(res.data.code!=200){
 					this.error=res.data.message;
 					this.show_err = true;
 				}else {
 					this.error='修改手机号成功';
 					this.show_err = true;
+					let obj = JSON.parse(JSON.stringify(this.userInfo))
+					obj.phone = this.query.new_phone;
+					factory.Storage.set('userInfo',obj)
+					this.setUser(obj)
 					history.back()
 				}
 			})

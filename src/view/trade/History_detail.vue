@@ -7,15 +7,15 @@
 
         <ul class="data_box">
 			<div > 
-				<p class="clearfix li-title"><span class="float_left"> 卖出 XRP/USDT </span></p>
+				<p class="clearfix li-title"><span class="float_left"> 卖出 {{detail.dui_name}} </span></p>
 				<li>
-					<div class='flex'><p>成交总额(USDT)</p><p>17.18730900</p></div>
-					<div class='flex'><p >成交均价(USDT)</p><p>0.3176</p></div>
-					<div class='flex'><p>成交量(XRP)</p><p>54.27</p></div>
+					<div class='flex'><p>成交总额(USDT)</p><p>{{detail.totalTransNum}}</p></div>
+					<div class='flex'><p >成交均价(USDT)</p><p>{{detail.coinTransPrice}}</p></div>
+					<div class='flex'><p>成交量(XRP)</p><p>{{detail.coinTransNum}}</p></div>
 				</li>
                 <li class='has_border'>
-                    <div class='flex'><p>手续费(USDT)</p><p>0.00730900</p></div>
-					<div class='flex'><p >0.00730900</p><p>0.3176</p></div>
+                    <div class='flex'><p>手续费(USDT)</p><p>{{detail.coinTransFee}}</p></div>
+					<div class='flex'><p >委托量</p><p>{{detail.coinEntrustNum}}</p></div>
 					<div class='flex'></div>
                 </li>
 			</div>
@@ -49,19 +49,21 @@ export default {
 			menu1:'充币',
 			menu2:'提币',
 			menu3:'交易'
-		},
+        },
+        detail:{},
         show:false,
          list:[
             {title:'时间',img:'2012-03-23 12:20',link:'/real',url:'src/assets/img/shi.png'},
             {title:'成交价',img:'15.00 XRP',link:'/ChangePassword',url:'src/assets/img/change_pass.png'},
-            {title:'成交量',img:'15.00 XRP',link:'',url:'src/assets/img/change_zijin.png'},
-            {title:'手续费',img:'0.00942300 USDT',link:'/custom',url:'src/assets/img/kefu.png'},
+            // {title:'成交量',img:'15.00 XRP',link:'',url:'src/assets/img/change_zijin.png'},
+            // {title:'手续费',img:'0.00942300 USDT',link:'/custom',url:'src/assets/img/kefu.png'},
             {title:'点卡消耗',img:'0.00000000 pts',link:'/help',url:'src/assets/img/help.png'},
         ],
     }
   },
   mounted() {
-     console.log('点击了')
+      this.detail = Object.assign({},this.$route.params)
+     console.log('点击了',this.detail,this.$route.params)
   },
   methods: {
 	  

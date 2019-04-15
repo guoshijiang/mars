@@ -13,8 +13,8 @@
 		  <div class="trade-left float_left">
 			<span class='code'>BQB/USDT</span>
 			<ul class="clearfix btn-ul">
-				<li class='float_left active' >买入</li>
-				<li class='float_left'>买出</li>
+				<li class='float_left' :class='{"active":tab=="ru"}' @click="cao('ru')">买入</li>
+				<li class='float_left' :class='{"active":tab=="chu"}' @click="cao('chu')">买出</li>
 			</ul>	
 			<x-input type='number' v-model="value" style="margin-top:14px;"></x-input>
 			<span class="sum">= 100 cny</span>
@@ -80,13 +80,17 @@ export default {
     return {
 		value:0,
 		num:'',
-		percent:28
+		percent:28,
+		tab:'ru'
 
     }
   },
   methods: {
 	  goHistory(){
 		  this.$router.push({name:'History'})
+	  },
+	  cao(type){
+		  this.tab = type;
 	  }
   }
 }
@@ -161,6 +165,7 @@ export default {
 				width: 60px;
 				// height: 28px;
 				text-align: center;
+				cursor: pointer;
 			}
 		}
 		.active{

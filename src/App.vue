@@ -11,25 +11,25 @@
     
     <!-- 底部 -->
     <!-- <tab class="tab_footer"></tab> -->
-    
   </div>
 </template>
 
 <script>
 export default {
-  name: 'app',
-  data(){
-    return {
+    name: 'app',
+    data(){
+        return {
 
-    }
-  },
-  components:{
-    // tab:()=>import('@/components/tab'),
-    // navHeader:()=>import('@/components/navHeader')
-  },
-  created() {
-    this.$store.dispatch('initSettings') 
-  },
+        }
+    },
+    components:{
+        // tab:()=>import('@/components/tab'),
+        // navHeader:()=>import('@/components/navHeader')
+    },
+    mounted() {
+        this.$store.dispatch('initSettings') 
+        this.$store.dispatch('initHb') //初始化的一些项目实时请求
+    },
 
 }
 </script>

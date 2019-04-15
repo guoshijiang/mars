@@ -1,11 +1,12 @@
 <template>
   <div class = 'pre ' >
     <!-- 顶部 -->
-    <nav-header :title='query.title' back='true' right= '历史记录' right_link='History_type' :query = "query.type"></nav-header>  
+    <nav-header :title='query.title' back='true' v-if='this.select_db != "请选择"' right= '历史记录' right_link='History_type' :query = "select_id"></nav-header> 
+    <nav-header :title='query.title' back='true' v-if='this.select_db == "请选择"'></nav-header>  
     <!-- 内容 -->
     <div class="content find"  style="height:calc(100% - 44px)">
         <div class="select_start">
-            <cell title='选择币种' :value='select_db' is-link @click.native="showDB = true"></cell>
+            <cell title='选择币种' :value='select_db' is-link @click.native="getDb()"></cell>
         </div>
         <div class="history_list" v-if='this.select_db =="请选择"'>
             <flexbox class='flex-box' wrap="wrap">
@@ -96,6 +97,7 @@ export default {
         return {
             showDB:false,
             select_db:'请选择',
+            select_id:'',
             model:{
                 'pick':{title:'提币',type:'pick',btn:'确定提交'},
                 'put':{title:'充币',type:'put',btn:'复制地址'}
@@ -132,9 +134,9 @@ export default {
         this.address = '';
         this.query = Object.assign({},this.model[this.$route.query.type])
         this.findBD()
+
         if(this.$route.query.type=='pick'){
             let data = factory.Storage.get('db_addr');
-            console.log(data)
             if(data){
                 this.copy = Object.assign({},data)
             }
@@ -143,6 +145,7 @@ export default {
   methods: {
         async selectDB(i){
             this.select_db = i.coinTypeItem;
+            this.select_id = i.id;
             try {
                 let res = await api.APIPOSTMAN('POST','/asset/findAssetByUserAndCoinTypeId',{userId :this.userInfo.id,coinTypeId:i.id,status:1})
                 if(res.data.code==200){
@@ -213,6 +216,16 @@ export default {
             } catch (error) {
                 
             }
+        },
+        getDb(){
+            if(this.db_list.length>0 || this.address){
+                this.showDB = true
+            }else{
+                this.toastText = '系统正忙，请稍后再试'
+                this.showToast = true;
+            }
+            
+
         },
         copyAddress(){
             console.log('aaa',this.copy)
