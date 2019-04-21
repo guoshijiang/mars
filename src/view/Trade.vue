@@ -141,7 +141,8 @@ export default {
 			this.setTimeOut = null;
 			this.select_id = key;
 			this.coin_name = this.dui[key].split('/')[0];
-			this.initPrice(this.coin_name)
+			this.initPrice(this.coin_name);
+			this.initTime()
 			console.log(key,this.coin_name)
 			
 		},
