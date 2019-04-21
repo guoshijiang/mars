@@ -51,7 +51,7 @@ export default {
 		login_list:[
 			{type:'phone',btn:'登陆交易所',txt:'手机号'},
 			// {type:'emal',btn:'登陆交易所',txt:'邮箱'},
-			{type:'tel',btn:'手机号一键登录',txt:'手机号快捷'},
+			// {type:'tel',btn:'手机号一键登录',txt:'手机号快捷'},
 			
 		],
 		login_type:'phone',

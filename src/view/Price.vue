@@ -28,15 +28,15 @@
 			<span>涨幅</span>
 		</div>
 		<ul class="data_box" style='height:calc(100% - 341px)'>
-			<li @click="goLine()">
-				<div><p>BTC/USDT</p><p>24h量 1000</p></div>
-				<div><p class="new_price">12834.5</p><p>12834.5</p></div>
-				<div class="change_height"><a class="hb_btn_a" href='javascript:;'>+0.34%</a></div>
+			<li @click="goLine()" v-for="(i,index) in list" :key='index'>
+				<div><p>{{i.coinName}}/USDT</p><p>24h量 1000</p></div>
+				<div><p class="new_price">{{i.price}}</p><p>{{i.openPrice}}</p></div>
+				<div class="change_height"><a class="hb_btn_a" href='javascript:;'>{{i.gain}}%</a></div>
 			</li>
-			<li>
+			<!-- <li>
 				<div><p>BTC/USDT</p><p>24h量 1000</p></div>
 				<div><p class="new_price">12834.5</p><p>12834.5</p></div>
-				<div class="change_height"><a class="hb_btn_a hb_btn_j" href='javascript:;'>-0.44%</a></div>
+				<div class="change_height"><a class="hb_btn_a hb_btn_j" href='javascript:;'>%</a></div>
 			</li>
 			<li>
 				<div><p>BTC/USDT</p><p>24h量 1000</p></div>
@@ -57,7 +57,7 @@
 				<div><p>BTC/USDT</p><p>24h量 1000</p></div>
 				<div><p class="new_price">12834.5</p><p>12834.5</p></div>
 				<div class="change_height"><a class="hb_btn_a" href='javascript:;'>+6.34%</a></div>
-			</li>
+			</li> -->
 		</ul>
     </div> 
 	<toast v-model="show_err" position='middle' type="text" :text="error"></toast>
@@ -70,6 +70,7 @@
 import { TransferDom, Actionsheet, Group, XSwitch, Toast } from 'vux'
 import { mapState,mapMutations } from "vuex";
 import api from '../until/help/api'
+import { setInterval, clearInterval } from 'timers';
 export default {
   components: {
     Actionsheet,
@@ -85,38 +86,107 @@ export default {
   directives: {
     TransferDom
   },
-  data () {
-    return {
-		error:'',
-	   	show_err:false,
-    }
-  },
-  mounted() {
-	  this.getPriceDetail()
-  },
-  methods: {
-	setDb(type){
-		// this.$router.push({name:'Findb',query:{type:type}})
-		if(this.userInfo.id){
-			this.$router.push({name:'Findb',query:{type:type}})
-		}else{
-			this.$router.push({name:'Login'})
+	data () {
+		return {
+			error:'',
+			show_err:false,
+			setTimeOut:null,   
+			list:[],
 		}
 	},
-	goLine(){
-		this.$router.push({name:'Line'})
+	mounted() {
+		this.getPriceDetail()
+		this.setTimeOut = null;
+		// console.log('222')
 	},
-	getPriceDetail(){
-		api.APIPOSTMAN('POST','/market/findAllMarket').then(res=>{
-			console.log(res.data.message)
-				if(res.data.code==200){
-				}else{
-					this.error = res.data.message;
-					this.show_err = true;
+	activated(){
+		this.setTimeOut = null;
+		clearInterval(this.setTimeOut);
+		// this.getPriceDetail()
+		this.initPrice();
+		this.initTime()
+	},
+	methods: {
+		setDb(type){
+			// this.$router.push({name:'Findb',query:{type:type}})
+			if(this.userInfo.id){
+				this.$router.push({name:'Findb',query:{type:type}})
+			}else{
+				this.$router.push({name:'Login'})
+			}
+		},
+		goLine(){
+			this.$router.push({name:'Line'})
+		},
+		getPriceDetail(){
+			try {
+				api.APIPOSTMAN('POST','/market/coinOpenPrice').then(async (res)=>{
+
+					if(res.data.code==200){
+						this.list = Object.assign([],res.data.result)
+						let data = await api.APIPOSTMAN('POST','/market/coinMarket',{});
+						if(data.data.code == 200){
+							this.list.map(i=>{
+								let open = data.data.result.filter(d=>{
+									if(i.coinName in d) {
+										i.price = d[i.coinName];
+										i.gain = parseInt(((i.price - i.openPrice) / i.openPrice) * 100 );
+										return d;
+									}
+								})
+								// i.price= open;
+							})
+						}
+						this.list = Object.assign([],this.list)
+					}else{
+						this.error = res.data.message;
+						this.show_err = true;
+					}
+				})
+			} catch (error) {
+				
+			}
+			
+		},
+		initTime(){
+			this.setTimeOut = setInterval(()=>{
+				this.initPrice();
+			},6000)
+		},
+		async initPrice(){
+			try {
+				let data = await api.APIPOSTMAN('POST','/market/coinMarket',{});
+				if(data.data.code == 200){
+					this.list.map(i=>{
+						let open = data.data.result.filter(d=>{
+							if(i.coinName in d) {
+								i.price = d[i.coinName];
+								i.gain = parseInt(((i.price - i.openPrice) / i.openPrice) * 100 );
+								return d;
+							}
+						})
+					})
+					this.list = Object.assign([],this.list)
 				}
-			})
+			} catch (error) {
+				
+			}
+			
+		}
+	},
+	deactivated() {
+		
+		clearInterval(this.setTimeOut);
+		this.setTimeOut = null;
+		console.log('销毁',this.setTimeOut)
+		// console.log('移除组件时',this.setTimeOut)
+	},
+	beforeDestroy(){
+
+		// this.setTimeOut = null;
+		// clearInterval(this.setTimeOut);
+		// console.log('销毁',this.setTimeOut)
 	}
-  }
 }
 </script>
 

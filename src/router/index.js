@@ -31,7 +31,10 @@ export default new Router({
     {
       path: '/price',
       name:'Price',
-      component:() => import('@/view/Price')
+      component:() => import('@/view/Price'),
+      meta:{
+          keepAlive:true,
+        }
     },
     {
       path: '/line',
@@ -57,6 +60,9 @@ export default new Router({
       path:'/trade',
       name:"Trade",
       component:() => import('@/view/Trade'),
+      meta:{
+        keepAlive:true,
+      }
 
     },
     {

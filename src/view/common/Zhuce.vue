@@ -10,8 +10,8 @@
             </ul>
           	<group class='register-input' v-if='register_type=="phone"'>
               	<x-input  v-model = "query.phone" :max='11' name="mobile" type='tel' placeholder="请输入手机号码" keyboard="number" is-type="china-mobile"><x-button slot="right" mini @click.native="getCode()">{{time? time+'s重新获取':'发送验证码'}}</x-button></x-input>
-             	<x-input  v-model = "query.code" type="number" placeholder="请填写6位数验证码" ></x-input>
-              	<x-input  v-model = "query.loginPwd" type='password' placeholder="至少6位任意字符" :min="6" ></x-input>
+             	<x-input  v-model = "query.code" type="number" :max="6"  placeholder="请填写6位数验证码" ></x-input>
+              	<x-input  v-model = "query.loginPwd" type='password'  placeholder="至少6位任意字符" :min="6" ></x-input>
           	</group>
 			<group class='register-input' v-if='register_type=="emal"'>
                 <x-input  v-model = "query.email" type="email" name="email" placeholder="请输入邮箱地址" is-type="email"></x-input>

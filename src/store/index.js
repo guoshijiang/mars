@@ -79,12 +79,14 @@ let actions = {
     async initHb({commit,state},payload){
         let user = factory.Storage.get('userInfo'),appSetInterval=null;
         try {
+            
+            if(!user.id) return false;
             appSetInterval = setInterval(async() => {
                 let res = await api.APIPOSTMAN('POST','/coincoin/handleTransCoin',{userId:user.id,status:1})
                 // clearInterval(appSetInterval);
                 // appSetInterval = null;
-                console.log('22222111')
-            },1000 * 60 * 2);
+                console.log('-------')
+            },1000 * 60 );
         } catch (error) {
             console.log(error)
         }

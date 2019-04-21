@@ -73,12 +73,11 @@ export default {
   methods: {
     	...mapMutations(["setUser"]),
     	goOut(index){
-		console.log('index',index)
 		
-			if(index=='menu1') {
-				this.$router.push({name:'Login'})
-				factory.Storage.romeve('userInfo');
-				this.setUser('')
+		if(index=='menu1') {
+			factory.Storage.romeve('userInfo');
+			this.setUser('')
+			this.$router.push({name:'Login'})
 			} 
 		}
   	},

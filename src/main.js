@@ -16,7 +16,8 @@ Vue.config.productionTip = false
 
 //全局路由守卫
 router.beforeEach((to,from,next)=>{
-	if(to.path=='/login'){
+	let arr = ['/setPassword','/zhuce','/login']
+	if(arr.indexOf(to.path)> -1){
 		if(factory.Storage.get('userInfo').id){
 			next('/home')
 		}else {
