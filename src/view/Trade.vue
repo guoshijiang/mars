@@ -25,7 +25,7 @@
 			</ul>
 			<x-progress class="trade-pro" :percent="percent" :show-cancel="false"></x-progress>
 			<div class="box btns">
-				<x-button  type="primary" @click.native='login()'>{{tab=="ru"?'买入':'卖出'}} {{coin_name}}</x-button>
+				<x-button  type="primary" @click.native='confimTrade()'>{{tab=="ru"?'买入':'卖出'}} {{coin_name}}</x-button>
 			</div>
 		  </div>
 		  <!-- 右边 -->
@@ -167,6 +167,14 @@ export default {
 				
 			}
 			
+		},
+		async confimTrade(){
+			try {
+				let data  = await api.APIPOSTMAN('POST','/coincoin/coinCoinTrans',{coinName:name});
+
+			} catch (error) {
+				
+			}
 		}
 		
 	},

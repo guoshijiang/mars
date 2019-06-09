@@ -124,13 +124,37 @@ export default {
   /* 转换成价格 1,265.00 */
   money (num, decnum) {
     try {
-      let float = parseFloat(num || 0)
-      if (Number.isNaN(float)) return num
+		let float = parseFloat(num || 0)
+		if (Number.isNaN(float)) return num
 
-      decnum = decnum < 0 ? 2 : decnum
-      return float.toFixed(decnum).replace(/\d{1,3}(?=(\d{3})+(\.\d*)?$)/g, "$&,");
+		decnum = decnum < 0 ? 2 : decnum
+		return float.toFixed(decnum).replace(/\d{1,3}(?=(\d{3})+(\.\d*)?$)/g, "$&,");
     } catch (e) {
-      return '0.00'
+      	return '0.00'
     }
   },
+  /**
+	 * 四舍六入五成双
+	 * @param num 需转化的数字
+	 * @param digit 保留小数位数, 默认保留2位小数
+	 *
+	 * example
+	 *    const a = 0.2;
+	 *    const b = 0.1;
+	 *    round(a.add(b)); // 勿用 a + b,会存在精度问题
+	 * @returns {number}
+	 */
+	toRound (num , digit ) {
+		const ratio   = Math.pow(10, digit ||  2),
+			  _num    = num * ratio,
+			  mod     = _num % 1,
+			  integer = Math.floor(_num);
+		if (mod > 0.5) {
+			return (integer + 1) / ratio;
+		} else if (mod < 0.5) {
+			return integer / ratio;
+		} else {
+			return (integer % 2 === 0 ? integer : integer + 1) / ratio;
+		}
+	},
 }

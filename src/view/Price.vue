@@ -30,34 +30,9 @@
 		<ul class="data_box" style='height:calc(100% - 341px)'>
 			<li @click="goLine()" v-for="(i,index) in list" :key='index'>
 				<div><p>{{i.coinName}}/USDT</p><p>24h量 1000</p></div>
-				<div><p class="new_price">{{i.price}}</p><p>{{i.openPrice}}</p></div>
+				<div><p class="new_price">{{i.price | toRound(4)}}</p><p>{{i.openPrice}}</p></div>
 				<div class="change_height"><a class="hb_btn_a" href='javascript:;'>{{i.gain}}%</a></div>
 			</li>
-			<!-- <li>
-				<div><p>BTC/USDT</p><p>24h量 1000</p></div>
-				<div><p class="new_price">12834.5</p><p>12834.5</p></div>
-				<div class="change_height"><a class="hb_btn_a hb_btn_j" href='javascript:;'>%</a></div>
-			</li>
-			<li>
-				<div><p>BTC/USDT</p><p>24h量 1000</p></div>
-				<div><p class="new_price">12834.5</p><p>12834.5</p></div>
-				<div class="change_height"><a class="hb_btn_a" href='javascript:;'>+0.34%</a></div>
-			</li>
-			<li>
-				<div><p>BTC/USDT</p><p>24h量 1000</p></div>
-				<div><p class="new_price">12834.5</p><p>12834.5</p></div>
-				<div class="change_height"><a class="hb_btn_a" href='javascript:;'>+0.34%</a></div>
-			</li>
-			<li>
-				<div><p>BTC/USDT</p><p>24h量 1000</p></div>
-				<div><p class="new_price">12834.5</p><p>12834.5</p></div>
-				<div class="change_height"><a class="hb_btn_a" href='javascript:;'>+0.34%</a></div>
-			</li>
-			<li>
-				<div><p>BTC/USDT</p><p>24h量 1000</p></div>
-				<div><p class="new_price">12834.5</p><p>12834.5</p></div>
-				<div class="change_height"><a class="hb_btn_a" href='javascript:;'>+6.34%</a></div>
-			</li> -->
 		</ul>
     </div> 
 	<toast v-model="show_err" position='middle' type="text" :text="error"></toast>
